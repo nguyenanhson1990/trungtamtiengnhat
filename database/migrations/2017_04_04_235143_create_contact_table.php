@@ -13,7 +13,21 @@ class CreateContactTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('contacts', function (Blueprint $table){
+        	$table->increments('id');
+            $table->string('title',255);
+            $table->string('phone',255);
+            $table->string('email',255);
+            $table->text('facebook');
+            $table->string('fax', 255);
+            $table->text('address');
+            $table->text('desc');
+            $table->integer('category_id')->unsigned();
+            $table->softDeletes();
+            $table->timestamps();
+            
+            $table->foreign('category_id')->references('id')->on('categories');
+        });
     }
 
     /**
@@ -21,8 +35,9 @@ class CreateContactTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(Blueprint $table)
     {
-        //
+        Schema::dropIfExits('contacts');
+        $table->dropForeign(['category_id']);
     }
 }
