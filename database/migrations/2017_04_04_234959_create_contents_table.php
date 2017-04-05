@@ -22,7 +22,7 @@ class CreateContentsTable extends Migration
             $table->dateTime('end_date');
             $table->integer('user_id')->unsigned();
             $table->integer('category_id')->unsigned();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
             

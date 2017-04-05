@@ -20,7 +20,7 @@ class CreateMediaTable extends Migration
             $table->text('desc');
             $table->integer('user_id')->unsigned();
             $table->integer('category_id')->unsigned();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
             

@@ -19,7 +19,7 @@ class CreateWidgetTable extends Migration
             $table->text('script');
             $table->text('desc');
             $table->integer('user_id')->unsigned();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
             
