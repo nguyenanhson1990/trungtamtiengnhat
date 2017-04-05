@@ -27,6 +27,7 @@ class CreateContactTable extends Migration
             $table->timestamps();
             
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->index(['category_id']);
         });
     }
 
