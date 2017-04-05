@@ -28,6 +28,7 @@ class CreateContentsTable extends Migration
             
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->index(['title','content','short_content']);
         });
     }
 
