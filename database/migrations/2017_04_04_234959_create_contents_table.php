@@ -15,7 +15,10 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function(Blueprint $table){
         	$table->increments('id');
-            $table->string('title',255);
+            $table->string('thumbnail');
+            $table->string('title');
+            $table->text('og_desc');
+            $table->string('og_keyword');
             $table->text('content');
             $table->text('short_content');
             $table->tinyInteger('content_type');
@@ -28,7 +31,7 @@ class CreateContentsTable extends Migration
             
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->index(['title','content','short_content','category_id']);
+            $table->index(['title','category_id']);
         });
     }
 

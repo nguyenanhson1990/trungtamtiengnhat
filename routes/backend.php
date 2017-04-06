@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -10,7 +9,6 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('/users', function () {
-    return 'admin cpanel ';
+Route::group(['namespace' => 'Admin'], function () {
+   Route::get('/', 'IndexController@index')->name('login');
 });
