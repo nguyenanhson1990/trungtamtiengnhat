@@ -7,8 +7,17 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Please Sign In</h3>
                 </div>
+                @if(count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                {{ $error  }}
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="panel-body">
-                    <form role="form" method="post" action="{{Route('login')}}">
+                    <form role="form" method="post" action="{{Route('loginProcess')}}">
                         {{ csrf_field() }}
                         <fieldset>
                             <div class="form-group">

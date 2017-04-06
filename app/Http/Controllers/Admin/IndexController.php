@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\FormLoginRequest;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Controllers\Controller;
 
@@ -16,6 +17,15 @@ class IndexController extends Controller
 
     public function index()
     {
+        return view('admin.index.login');
+    }
+
+    /**
+     * Login process handler
+     * @author SonNA
+     * @return boolean
+     */
+    public function loginProcess(FormLoginRequest $request){
         if(!empty($request->all()))
         {
             $credentials = [
@@ -25,9 +35,9 @@ class IndexController extends Controller
 
             if(Sentinel::authenticate($credentials))
             {
-                //return redirect($this->redirect);
+                return redirect($this->redirect);
             }
+
         }
-        return view('admin.index.login');
     }
 }
