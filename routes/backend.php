@@ -11,4 +11,5 @@
 */
 Route::group(['namespace' => 'Admin'], function () {
    Route::get('/', 'IndexController@index')->name('login');
+   Route::post('/', 'IndexController@index')->name('login');
 });
