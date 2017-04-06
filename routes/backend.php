@@ -9,7 +9,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['namespace' => 'Admin'], function () {
+Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
    Route::get('/', 'IndexController@index')->name('login');
    Route::post('/', 'IndexController@loginProcess')->name('loginProcess');
 });
