@@ -3,12 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\FormLoginRequest;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
-    protected $redirect = '/index';
+    protected $redirect = 'home';
+    protected $login = 'login';
+
+    public function __construct()
+    {
+        if($users = Sentinel::check()){
+            return redirect()->route($this->redirect);
+        }else{
+            return redirect()->route($this->login);
+        }
+    }
+
     /**
      * Display login entry point
      * @author SonNA
@@ -26,18 +38,45 @@ class IndexController extends Controller
      * @return boolean
      */
     public function loginProcess(FormLoginRequest $request){
-        if(!empty($request->all()))
-        {
+
+        try{
+
             $credentials = [
                 'email' => $request->email,
-                'password' => $request->password
+                'password' => $request->password,
+                'remember' => $request->remember
             ];
 
-            if(Sentinel::authenticate($credentials))
+            if(Sentinel::authenticateAndRemember($credentials))
             {
-                return redirect($this->redirect);
+                return redirect()->route($this->redirect);
+            }else{
+                return redirect()->back()->withErrors(['msg' => 'Please check your email or password']);
             }
 
+        }catch (ThrottlingException $e){
+            return redirect()->back()->withErrors(['msg' => 'Your account has been locked in '.$e->getDelay()]);
         }
+    }
+
+    /**
+     * Home page
+     * @author SonNA
+     * @return resource/views/admin/index/home.blade
+     */
+    public function home()
+    {
+        return view('admin.index.home');
+    }
+
+    /**
+     * Logout process
+     * @author SonNA
+     * @return boolean
+     */
+    public function logout()
+    {
+        Sentinel::logout();
+        return redirect()->route($this->login)->withErrors(['msg' => 'you have successfully logged out']);
     }
 }

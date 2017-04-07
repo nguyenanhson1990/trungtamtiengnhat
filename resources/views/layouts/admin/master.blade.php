@@ -5,7 +5,7 @@
         <title>Nui Truc Cpanel - @yield('title')</title>
 
         <!-- Bootstrap Core CSS -->
-        <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css)}}" rel="stylesheet">
+        <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
         <!-- MetisMenu CSS -->
         <link href="{{asset('vendor/metisMenu/metisMenu.min.css')}}" rel="stylesheet">
@@ -34,7 +34,7 @@
         <div id="wrapper">
             @section('navigation')
                 <!-- Navigation -->
-                @include('partial.navigation')
+                @include('layouts.partial.admin.navigation')
             @show
             <div id="page-wrapper">
                 @yield('content')

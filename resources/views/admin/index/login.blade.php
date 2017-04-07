@@ -7,11 +7,14 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Please Sign In</h3>
                 </div>
+
                 @if(count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
                             @foreach($errors->all() as $error)
-                                {{ $error  }}
+                                <li>
+                                    {{ $error  }}
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -21,14 +24,14 @@
                         {{ csrf_field() }}
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                <input class="form-control" value="{{old('email')}}" placeholder="E-mail" name="email" type="email" autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                <input class="form-control" placeholder="Password" value="{{old('password')}}" name="password" type="password" value="">
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                    <input name="remember" type="checkbox" value="1">Remember Me
                                 </label>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->

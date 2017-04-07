@@ -10,6 +10,9 @@
 |
 */
 Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
-   Route::get('/', 'IndexController@index')->name('login');
-   Route::post('/', 'IndexController@loginProcess')->name('loginProcess');
+   Route::get('/','IndexController@index')->name('login');
+   Route::get('/home', 'IndexController@home')->name('home');
+
+   Route::post('/loginprocess', 'IndexController@loginProcess')->name('loginProcess');
+   Route::get('/logout', 'IndexController@logout')->name('logout');
 });
