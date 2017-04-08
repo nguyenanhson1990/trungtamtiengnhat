@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+        <a class="navbar-brand" href="{{ Route('home') }}">@lang('admin.home_title')</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -235,16 +235,14 @@
                     <!-- /input-group -->
                 </li>
                 <li>
-                    <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    <a href="href="{{ Route('home') }}"><i class="fa fa-dashboard fa-fw"></i>@lang('admin.nav.dashboard')</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> @lang('admin.nav.user_management')
+                                <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="flot.html">Flot Charts</a>
-                        </li>
-                        <li>
-                            <a href="morris.html">Morris.js Charts</a>
+                            <a href="{{ Route('users')  }}">@lang('admin.nav.user_management_list')</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

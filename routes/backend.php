@@ -11,8 +11,12 @@
 */
 Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
    Route::get('/','IndexController@index')->name('login');
-   Route::get('/home', 'IndexController@home')->name('home');
+   Route::get('/home', 'IndexController@home')->name('home')->middleware('checkAuth');
 
    Route::post('/loginprocess', 'IndexController@loginProcess')->name('loginProcess');
    Route::get('/logout', 'IndexController@logout')->name('logout');
+
+   Route::group(['prefix' => 'users', 'middleware' => ['checkAuth']], function (){
+      Route::get('/','UserController@index')->name('users');
+   });
 });

@@ -14,11 +14,7 @@ class IndexController extends Controller
 
     public function __construct()
     {
-        if($users = Sentinel::check()){
-            return redirect()->route($this->redirect);
-        }else{
-            return redirect()->route($this->login);
-        }
+
     }
 
     /**
@@ -37,8 +33,8 @@ class IndexController extends Controller
      * @author SonNA
      * @return boolean
      */
-    public function loginProcess(FormLoginRequest $request){
-
+    public function loginProcess(FormLoginRequest $request)
+    {
         try{
 
             $credentials = [
