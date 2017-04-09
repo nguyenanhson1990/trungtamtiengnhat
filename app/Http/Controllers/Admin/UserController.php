@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\FormAddUserRequest;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,11 +24,16 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $record_per_page = Config::get('contains.record_per_page');
-        $limit = Config::get('contains.limit',$request->get('limit'));
 
-        $users = $this->user->paginate($limit);
+        $limit = $request->get('limit');
 
-        return view('admin.user.index',compact('users','record_per_page'));
+        if(!$limit){
+            $limit = Config::get('contains.limit');
+        }
+
+        $users = $this->user->latest()->paginate($limit);
+
+        return view('admin.user.index',compact('users','record_per_page','limit'));
     }
 
     /**
@@ -35,9 +41,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('admin.user.create');
     }
 
     /**
@@ -46,9 +52,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FormAddUserRequest $request)
     {
-        //
+        Sentinel::registerAndActivate($request->all());
+
+        $record_per_page = Config::get('contains.record_per_page');
+
+        $limit = Config::get('contains.limit');
+
+        $users = $this->user->paginate($limit);
+
+        return redirect()->route('users')->with(compact('users','record_per_page','limit','page'));
     }
 
     /**
@@ -70,7 +84,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Sentinel::findById($id);
+
+        return view('admin.user.edit',compact('user'));
     }
 
     /**
@@ -82,7 +98,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $record_per_page = Config::get('contains.record_per_page');
+
+        $limit = Config::get('contains.limit');
+
+        $users = $this->user->paginate($limit);
+
+        $user = Sentinel::findById( $id );
+
+        Sentinel::update($user, $request->all());
+
+        return redirect()->route('users')->with(compact('users','record_per_page','limit','page'));
     }
 
     /**

@@ -18,5 +18,12 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
 
    Route::group(['prefix' => 'users', 'middleware' => ['checkAuth']], function (){
       Route::get('/','UserController@index')->name('users');
+      Route::get('/create','UserController@create')->name('create');
+      Route::post('/store','UserController@store')->name('store');
+
+      Route::get('/edit/{id}','UserController@edit')->name('user_edit');
+      Route::post('/update/{id}','UserController@update')->name('user_update');
+
+      Route::post('/delete/{id}','UserController@delete')->name('user_delete');
    });
 });

@@ -235,7 +235,7 @@
                     <!-- /input-group -->
                 </li>
                 <li>
-                    <a href="href="{{ Route('home') }}"><i class="fa fa-dashboard fa-fw"></i>@lang('admin.nav.dashboard')</a>
+                    <a href="{{ Route('home') }}"><i class="fa fa-dashboard fa-fw"></i>@lang('admin.nav.dashboard')</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> @lang('admin.nav.user_management')

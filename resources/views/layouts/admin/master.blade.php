@@ -45,6 +45,9 @@
                 @yield('content')
             </div>
         </div>
+        @section('modal')
+                @include('admin.component.modal');
+                @show
         <!-- jQuery -->
         <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
@@ -54,13 +57,11 @@
         <!-- Metis Menu Plugin JavaScript -->
         <script src="{{asset('vendor/metisMenu/metisMenu.min.js')}}"></script>
 
-        <!-- Morris Charts JavaScript -->
-        <script src="{{asset('vendor/raphael/raphael.min.js')}}"></script>
-        <script src="{{asset('vendor/morrisjs/morris.min.js')}}"></script>
-        <script src="{{asset('data/morris-data.js')}}"></script>
-
         <!-- Custom Theme JavaScript -->
         <script src="{{asset('js/admin/sb-admin-2.js')}}"></script>
+
+        <!-- Admin component JavaScript -->
+        <script src="{{asset('js/admin/component/admin.js')}}"></script>
 
         <!-- extras JavaScript -->
         @yield('scripts')
