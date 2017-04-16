@@ -3,5 +3,14 @@ namespace App\Repositories;
 
 interface CategoryRepositoryInterface
 {
-    public function printstring($str);
+    public function __construct();
+
+    public function all($limit);
+
+    public function add($array_data);
+
+    public function delete($id);
+
+    public function update($id,$array_data);
+
 }

@@ -1,13 +1,13 @@
 @extends('layouts.admin.master')
 @section('title','Home Page')
 @section('styles')
-    <!-- Custom Css -->
-    <link href="{{asset('css/admin/user/user.css')}}" rel="stylesheet" type="text/css">
-    @endsection
+        <!-- Custom Css -->
+<link href="{{asset('css/admin/user/user.css')}}" rel="stylesheet" type="text/css">
+@endsection
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{__('admin.nav.user_management')}}</h1>
+            <h1 class="page-header">{{__('admin.nav.content_management_categories')}}</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -19,7 +19,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-10">
-                            {{__('admin.users.user_list')}}
+                            {{__('admin.category.category_list')}}
                         </div>
                         <div class="col-sm-2 text-right">
                             <a href="{{Route('create')}}">
@@ -49,42 +49,22 @@
                             <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">First Name</th>
-                                <th class="text-center">Last Name</th>
-                                <th class="text-center">Username</th>
+                                <th class="text-center">Group</th>
+                                <th class="text-center">Tên</th>
+                                <th class="text-center">Miêu tả</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php $stt = 1; ?>
-                            @forelse($users as $item)
-                                <tr>
-                                    <td>{{$stt++}}</td>
-                                    <td>{{$item->first_name}}</td>
-                                    <td>{{$item->last_name}}</td>
-                                    <td>{{$item->email}}</td>
-                                    <td class="text-center">
-                                        <a href="{{Route('user_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        @if($item->id != 4)
-                                        | <a href="#" class="openModel" modalTitle="{{ __('admin.users.modal_delete_title') }}" data-toggle="modal"
-                                        data-target="#modal-component" datausername="{{ $item->last_name .' '. $item->first_name  }}"
-                                        datauser_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            @endif
 
-                                    </td>
-                                </tr>
-                                @empty
-                                    <tr>
-                                        <td>Record empty</td>
-                                    </tr>
-                                @endforelse
                             </tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
                     <div class="row">
                         <div class="col-sm-12 text-right">
-                            {{ $users->appends(['limit'=>$limit])->links() }}
+                            {{ $categories->appends(['limit'=>$limit])->links() }}
                         </div>
                     </div>
                 </div>
@@ -94,11 +74,11 @@
         </div>
     </div>
     <!-- /.row -->
-@endsection
-@section('scripts')
-    <!-- users js -->
+    @endsection
+    @section('scripts')
+            <!-- users js -->
     <script type="text/javascript">
-    var get_form_delete_url = "{{ Route('user_delete_form')  }}";
+        var get_form_delete_url = "{{ Route('user_delete_form')  }}";
     </script>
     <script src="{{asset('js/admin/users/app.js')}}"></script>
 @endsection

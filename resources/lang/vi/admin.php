@@ -23,10 +23,16 @@ return [
     'reset' => 'Reset',
     'close' => 'Đóng lại',
     'delete' =>'Xóa',
+    'ok' => 'OK',
+    'delete_confirm' => 'Bạn có muốn xóa:',
     'nav' => [
             'dashboard' => 'Trang chủ',
             'user_management' => 'Quản lý User',
             'user_management_list' => 'Danh sách',
+            'content_management' => 'Quản lý nội dung',
+            'content_management_categories' => 'Categories',
+            'content_management_post' => 'Bài viết ( post )',
+            'content_management_page' => 'Bài viết ( page )',
         ],
     'users' => [
             'user_list' => 'Danh sách User',
@@ -35,6 +41,12 @@ return [
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'password' => 'Password',
+            'modal_delete_title' => 'Xóa User'
+    ],
+    'category' => [
+        'category_list' => 'Danh sách category',
+        'category_add' => 'Thêm mới Category',
+        'category_delete' => 'Xóa Category'
     ]
 
 ];

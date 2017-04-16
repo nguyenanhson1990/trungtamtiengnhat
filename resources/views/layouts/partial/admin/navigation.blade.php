@@ -248,7 +248,20 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> @lang('admin.nav.content_management')
+                        <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ Route('categories')  }}">@lang('admin.nav.content_management_categories')</a>
+                            </li>
+                            <li>
+                                <a href="{{ Route('users')  }}">@lang('admin.nav.content_management_post')</a>
+                            </li>
+                            <li>
+                                <a href="{{ Route('users')  }}">@lang('admin.nav.content_management_page')</a>
+                            </li>
+                        </ul>
+                    <!-- /.nav-second-level -->
                 </li>
                 <li>
                     <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>

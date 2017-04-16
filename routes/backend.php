@@ -24,6 +24,11 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
       Route::get('/edit/{id}','UserController@edit')->name('user_edit');
       Route::post('/update/{id}','UserController@update')->name('user_update');
 
-      Route::post('/delete/{id}','UserController@delete')->name('user_delete');
+      Route::post('/delete/{id}','UserController@destroy')->name('user_destroy');
+      Route::get('/delete/getform','UserController@builform')->name('user_delete_form');
+   });
+
+   Route::group(['prefix' => 'categories', 'middleware' => ['checkAuth']], function (){
+      Route::get('/','CategoriesController@index')->name('categories');
    });
 });

@@ -120,6 +120,23 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Sentinel::findById($id);
+        $user->delete();
+
+        return redirect()->back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function builform(Request $request)
+    {
+        $datausername = $request->get('datausername');
+        $user_id = $request->get('user_id');
+
+        return response()->json(['body' => view('admin.user.formdelete', compact('content','user_id','datausername'))->render()]);
     }
 }
