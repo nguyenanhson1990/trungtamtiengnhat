@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CategoryFormRequest;
 use App\Models\Categories;
 use App\Repositories\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
@@ -43,7 +44,9 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        $parent_cat = $this->category->get(['id','parent_id','name']);
+
+        return view('admin.categories.create',compact('parent_cat'));
     }
 
     /**
@@ -52,9 +55,22 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryFormRequest $request)
     {
-        //
+
+        $record_per_page =  Config::get('contains.record_per_page');
+
+        $limit = $request->get('limit');
+
+        if(!$limit){
+            $limit = Config::get('contains.limit');
+        }
+
+        $categories = $this->category->all($limit);
+
+        $this->category->add($request->except(['_token']));
+
+        return redirect()->route('categories')->with(compact('categories','record_per_page','limit','page'));
     }
 
     /**

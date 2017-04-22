@@ -30,5 +30,7 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
 
    Route::group(['prefix' => 'categories', 'middleware' => ['checkAuth']], function (){
       Route::get('/','CategoriesController@index')->name('categories');
+      Route::get('/create','CategoriesController@create')->name('category_create');
+      Route::post('/store','CategoriesController@store')->name('category_store');
    });
 });

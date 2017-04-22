@@ -25,6 +25,7 @@ return [
     'delete' =>'Xóa',
     'ok' => 'OK',
     'delete_confirm' => 'Bạn có muốn xóa:',
+    'action' => 'Action',
     'nav' => [
             'dashboard' => 'Trang chủ',
             'user_management' => 'Quản lý User',
@@ -46,7 +47,14 @@ return [
     'category' => [
         'category_list' => 'Danh sách category',
         'category_add' => 'Thêm mới Category',
-        'category_delete' => 'Xóa Category'
+        'category_delete' => 'Xóa Category',
+        'parent' => 'Parent',
+        'category_name' => 'Tên',
+        'category_desc' => 'Miêu tả',
+        'root' => '--ROOT--',
+        'messages' => [
+            'name_required' => 'Hãy nhập vào tên category'
+        ]
     ]
 
 ];

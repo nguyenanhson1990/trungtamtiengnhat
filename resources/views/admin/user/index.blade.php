@@ -75,7 +75,7 @@
                                 </tr>
                                 @empty
                                     <tr>
-                                        <td>Record empty</td>
+                                        <td colspan="5">Record empty</td>
                                     </tr>
                                 @endforelse
                             </tbody>

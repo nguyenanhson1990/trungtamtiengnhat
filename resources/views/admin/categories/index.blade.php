@@ -22,7 +22,7 @@
                             {{__('admin.category.category_list')}}
                         </div>
                         <div class="col-sm-2 text-right">
-                            <a href="{{Route('create')}}">
+                            <a href="{{Route('category_create')}}">
                                 <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -32,7 +32,7 @@
                 <div class="panel-body">
                     <div class="row pd-5">
                         <div class="col-sm-6">
-                            <form class="form-inline" action="{{Route('users')}}">
+                            <form class="form-inline" action="{{Route('categories')}}">
                                 <div class="form-group">
                                     <label for="limit">{{ __('admin.shows') }}</label>
                                     <select onchange="this.form.submit();" name="limit" aria-controls="dataTables-example" class="form-control input-sm">
@@ -49,15 +49,41 @@
                             <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Group</th>
-                                <th class="text-center">Tên</th>
-                                <th class="text-center">Miêu tả</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">{{__('admin.category.parent')}}</th>
+                                <th class="text-center">{{__('admin.category.category_name')}}</th>
+                                <th class="text-center">{{__('admin.category.category_desc')}}</th>
+                                <th class="text-center">{{__('admin.action')}}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php $stt = 1; ?>
+                            @forelse($categories as $item)
 
+                                <tr>
+                                    <td>{{$stt++}}</td>
+                                    <td>
+                                        @if(in_array($item->parent_id,$categories->toArray()['data']))
+                                            {{$item->name}}
+                                            @endif
+                                    </td>
+                                    <td>
+                                        @if(empty($item->parent_id))
+                                            {{$item->name}}
+                                            @endif
+                                    </td>
+                                    <td>{{$item->desc}}</td>
+                                    <td class="text-center">
+                                        <a href="{{Route('user_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            | <a href="#" class="openModel" modalTitle="{{ __('admin.users.modal_delete_title') }}" data-toggle="modal"
+                                                 data-target="#modal-component" datausername="{{ $item->last_name .' '. $item->first_name  }}"
+                                                 datauser_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5">Record empty</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

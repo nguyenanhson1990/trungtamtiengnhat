@@ -32,4 +32,9 @@ class CategoryRepository implements CategoryRepositoryInterface
 
         return $category->save();
     }
+
+    public function get($data)
+    {
+        return Categories::all($data);
+    }
 }
