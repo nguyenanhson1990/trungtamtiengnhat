@@ -44,7 +44,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $parent_cat = $this->category->get(['id','parent_id','name']);
+        $parent_cat = $this->category->get(['id','parent_id','name'])->toArray();
 
         return view('admin.categories.create',compact('parent_cat'));
     }
@@ -74,7 +74,7 @@ class CategoriesController extends Controller
 
         Session::flash("flash_notify",[
             'level' => 'success',
-            'message' => __('admin.category.messages.success_message')
+            'message' => __('admin.category.messages.success_add')
         ]);
 
         return redirect()->route('categories')->with(compact('categories','record_per_page','limit','page'));

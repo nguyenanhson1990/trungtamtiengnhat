@@ -54,7 +54,7 @@ return [
         'root' => '--ROOT--',
         'messages' => [
             'name_required' => 'Hãy nhập vào tên category',
-            'success_message' => 'Thêm mới category thành công'
+            'success_add' => 'Thêm mới category thành công'
         ]
     ]
 

@@ -35,6 +35,7 @@
                             </ul>
                         </div>
                     @endif
+
                     <div class="col-lg-6">
                         <form role="form" method="post" action="{{Route('category_store')}}">
                             {{ csrf_field() }}
@@ -42,9 +43,7 @@
                                 <label>{{__('admin.category.parent')}}</label>
                                 <select class="form-control" name="parent_id">
                                     <option value="0">{{__('admin.category.root')}}</option>
-                                    @foreach($parent_cat as $item)
-                                            <option value="{{$item->id}}" @if(old('parent_id') == $item->id) selected @endif>{{$item->name}}</option>
-                                        @endforeach
+                                    {{ render_multi_menu($parent_cat,"",0,old('parent_id')) }}
                                 </select>
                             </div>
                             <div class="form-group @if($errors->has('name')) has-error @endif">
