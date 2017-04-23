@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <label>{{__('admin.category.parent')}}</label>
                                 <select class="form-control" name="parent_id">
-                                    <option value="">{{__('admin.category.root')}}</option>
+                                    <option value="0">{{__('admin.category.root')}}</option>
                                     @foreach($parent_cat as $item)
                                             <option value="{{$item->id}}" @if(old('parent_id') == $item->id) selected @endif>{{$item->name}}</option>
                                         @endforeach

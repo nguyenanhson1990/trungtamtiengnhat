@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryFormRequest;
-use App\Models\Categories;
 use App\Repositories\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 
 class CategoriesController extends Controller
 {
@@ -67,8 +67,15 @@ class CategoriesController extends Controller
         }
 
         $categories = $this->category->all($limit);
+        $datas = $request->except(['_token']);
+        $datas['slug'] = str_slug($request->name,'-');
 
-        $this->category->add($request->except(['_token']));
+        $this->category->add($datas);
+
+        Session::flash("flash_notify",[
+            'level' => 'success',
+            'message' => __('admin.category.messages.success_message')
+        ]);
 
         return redirect()->route('categories')->with(compact('categories','record_per_page','limit','page'));
     }

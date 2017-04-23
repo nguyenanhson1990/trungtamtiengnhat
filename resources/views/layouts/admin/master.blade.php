@@ -42,6 +42,7 @@
                 @include('layouts.partial.admin.navigation')
             @show
             <div id="page-wrapper">
+                @include('layouts.message.admin.message')
                 @yield('content')
             </div>
         </div>

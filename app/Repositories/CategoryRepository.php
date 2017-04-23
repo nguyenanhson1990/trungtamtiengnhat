@@ -29,7 +29,7 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function add($array_data)
     {
         $category = new Categories($array_data);
-
+        $category->slug = $array_data['slug'];
         return $category->save();
     }
 

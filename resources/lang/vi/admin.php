@@ -53,7 +53,8 @@ return [
         'category_desc' => 'Miêu tả',
         'root' => '--ROOT--',
         'messages' => [
-            'name_required' => 'Hãy nhập vào tên category'
+            'name_required' => 'Hãy nhập vào tên category',
+            'success_message' => 'Thêm mới category thành công'
         ]
     ]
 
