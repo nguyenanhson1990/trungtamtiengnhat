@@ -55,32 +55,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $stt = 1; ?>
-                            @forelse($categories as $item)
-                                    @if($item['parent_id'] == 0)
-                                        <tr>
-                                            <td>{{$stt++}}</td>
-                                            <td>
-                                                <?php
-                                                    $id = $item['id'];
-                                                    $sepe = "--";
-                                                ?>
-                                                {{$item->name}}
-                                            </td>
-                                            <td>{{$item->desc}}</td>
-                                            <td class="text-center">
-                                                <a href="{{Route('user_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    | <a href="#" class="openModel" modalTitle="{{ __('admin.users.modal_delete_title') }}" data-toggle="modal"
-                                                         data-target="#modal-component" datausername="{{ $item->last_name .' '. $item->first_name  }}"
-                                                         datauser_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @empty
-                                    <tr>
-                                        <td colspan="5">Record empty</td>
-                                    </tr>
-                                @endforelse
+                                <?php render_multi_cat($categories,'-',0); ?>
                             </tbody>
                         </table>
                     </div>
