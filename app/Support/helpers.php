@@ -19,7 +19,7 @@ function render_multi_menu($data,$seperator,$parent_id,$old)
             }else{
                 echo  "<option value=".$value['id'].">".$seperator.$value['name'] ."</option>";
             }
-            render_multi_menu($data,$seperator.='-- ',$value['id'],$old);
+            render_multi_menu($data,$seperator . '-- ',$value['id'],$old);
         }
 
         endforeach;
@@ -34,9 +34,9 @@ function render_multi_cat($data,$seperator,$parent_id)
             echo '<td>'.$stt++.'</td>';
             echo '<td>'.$seperator.$value['name'].'</td>';
             echo '<td>'.$value['desc'].'</td>';
-            echo "<td class='text-center'><a href='".Route('user_edit',['id' => $value['id']])."'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
-                                        | <a href='#' class='openModel' modalTitle='". __('admin.users.modal_delete_title'). "' data-toggle='modal'
-                                        data-target='#modal-component' datauser_id='".$value['id']."'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+            echo "<td class='text-center'><a href='".Route('category_edit',['id' => $value['id']])."'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
+                                        | <a href='#' class='openModel' modalTitle='". __('admin.category.modal_delete_title'). "' data-toggle='modal'
+                                        data-target='#modal-component' datacatname='".$value['name']."' datacat_id='".$value['id']."'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
             echo '</tr>';
 
             render_multi_cat($data,$seperator . '--| ', $value['id']);

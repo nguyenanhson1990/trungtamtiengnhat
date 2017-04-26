@@ -52,9 +52,13 @@ return [
         'category_name' => 'Tên',
         'category_desc' => 'Miêu tả',
         'root' => '--ROOT--',
+        'modal_delete_title' => 'Xóa Category',
         'messages' => [
             'name_required' => 'Hãy nhập vào tên category',
-            'success_add' => 'Thêm mới category thành công'
+            'success_add' => 'Thêm mới category thành công',
+            'success_edit' => 'Cập nhật category thành công',
+            'success_delete' => 'Bạn đã xóa category thành công',
+            'name_unique' => 'Category này đã tồn tại trong hệ thống',
         ]
     ]
 

@@ -15,13 +15,18 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function delete($id)
     {
-        $category = Categories::find($id);
+        $category = Categories::where('id',$id);
         return $category->delete();
+    }
+
+    public function find($id)
+    {
+        return Categories::where('id',$id);
     }
 
     public function update($id,$array_data)
     {
-        $category = Categories::find($id);
+        $category = Categories::where('id',$id);
         $category->update($array_data);
         return $category->save();
     }

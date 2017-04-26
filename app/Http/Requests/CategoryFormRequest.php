@@ -24,14 +24,15 @@ class CategoryFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required|unique:categories,name,'.$this->id
         ];
     }
 
     public function messages()
     {
         return [
-          'name.required' => __('admin.category.messages.name_required')
+          'name.required' => __('admin.category.messages.name_required'),
+          'name.unique' => __('admin.category.messages.name_unique')
         ];
     }
 }

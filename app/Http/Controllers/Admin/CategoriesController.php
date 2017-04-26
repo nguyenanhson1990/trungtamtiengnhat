@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryFormRequest;
+use App\Models\Categories;
 use App\Repositories\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,7 +32,6 @@ class CategoriesController extends Controller
         if(!$limit){
             $limit = Config::get('contains.limit');
         }
-
         $categories = $this->category->all($limit);
 
         return view('admin.categories.index',compact('categories','record_per_page','limit'));
@@ -99,7 +99,10 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->category->find($id)->first();
+        $parent_cat = $this->category->get(['id','parent_id','name'])->toArray();
+
+        return view('admin.categories.edit',compact('category','parent_cat'));
     }
 
     /**
@@ -109,9 +112,16 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryFormRequest $request, $id)
     {
-        //
+        $this->category->update($id,$request->except('_token'));
+
+        Session::flash('flash_notify',[
+            'level' => 'success',
+            'message' => __('admin.category.messages.success_edit')
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -120,8 +130,22 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $this->category->delete($request->get('category_id'));
+
+        Session::flash('flash_notify',[
+            'level' => 'danger',
+            'message' => __('admin.category.messages.success_delete')
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function builform(Request $request)
+    {
+        $category_id = $request->get('cat_id');
+        $category_name = $request->get('cat_name');
+        return response()->json(['body' => view('admin.categories.formdelete', compact('category_id','category_name'))->render()]);
     }
 }

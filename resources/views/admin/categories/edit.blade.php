@@ -37,22 +37,22 @@
                     @endif
 
                     <div class="col-lg-6">
-                        <form role="form" method="post" action="{{Route('category_store')}}">
+                        <form role="form" method="post" action="{{Route('category_update',['id' => $category->id])}}">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label>{{__('admin.category.parent')}}</label>
                                 <select class="form-control" name="parent_id">
                                     <option value="0">{{__('admin.category.root')}}</option>
-                                    {{ render_multi_menu($parent_cat,"",0,old('parent_id')) }}
+                                    {{ render_multi_menu($parent_cat,"",0, !empty(old('parent_id')) ? old('parent_id') : $category->id ) }}
                                 </select>
                             </div>
                             <div class="form-group @if($errors->has('name')) has-error @endif">
                                 <label class="control-label" for="name">{{ __('admin.category.category_name') }}</label>
-                                <input id="name" type="text" name="name" value="{{old('name')}}" class="form-control">
+                                <input id="name" type="text" name="name" value="{{ !empty(old('name')) ? old('name') : $category->name }}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="desc">{{ __('admin.category.category_desc') }}</label>
-                                <textarea class="form-control" id="desc" name="desc" rows="3" value="{{old('desc')}}">{{old('desc')}}</textarea>
+                                <textarea class="form-control" id="desc" name="desc" rows="3" value="{{ !empty(old('desc')) ? old('desc') : $category->desc }}">{{ !empty(old('desc')) ? old('desc') : $category->desc }}</textarea>
                             </div>
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-primary">Thêm mới</button>

@@ -13,6 +13,8 @@ interface CategoryRepositoryInterface
 
     public function update($id,$array_data);
 
+    public function find($id);
+
     public function get($data);
 
 }

@@ -32,5 +32,11 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
       Route::get('/','CategoriesController@index')->name('categories');
       Route::get('/create','CategoriesController@create')->name('category_create');
       Route::post('/store','CategoriesController@store')->name('category_store');
+
+      Route::get('/edit/{id}','CategoriesController@edit')->name('category_edit');
+      Route::post('/update/{id}','CategoriesController@update')->name('category_update');
+
+      Route::get('/delete/getform','CategoriesController@builform')->name('category_delete_form');
+      Route::post('/delete','CategoriesController@destroy')->name('category_destroy');
    });
 });

@@ -76,7 +76,7 @@
     @section('scripts')
             <!-- users js -->
     <script type="text/javascript">
-        var get_form_delete_url = "{{ Route('user_delete_form')  }}";
+        var get_form_delete_url = "{{ Route('category_delete_form')  }}";
     </script>
-    <script src="{{asset('js/admin/users/app.js')}}"></script>
+    <script src="{{asset('js/admin/category/app.js')}}"></script>
 @endsection
