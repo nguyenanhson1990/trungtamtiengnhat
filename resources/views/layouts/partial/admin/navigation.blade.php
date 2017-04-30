@@ -255,10 +255,10 @@
                                 <a href="{{ Route('categories')  }}">@lang('admin.nav.content_management_categories')</a>
                             </li>
                             <li>
-                                <a href="{{ Route('users')  }}">@lang('admin.nav.content_management_post')</a>
+                                <a href="{{ Route('contents_page')  }}">@lang('admin.nav.content_management_page')</a>
                             </li>
                             <li>
-                                <a href="{{ Route('users')  }}">@lang('admin.nav.content_management_page')</a>
+                                <a href="">@lang('admin.nav.content_management_post')</a>
                             </li>
                         </ul>
                     <!-- /.nav-second-level -->

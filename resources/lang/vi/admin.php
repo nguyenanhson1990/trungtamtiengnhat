@@ -60,6 +60,23 @@ return [
             'success_delete' => 'Bạn đã xóa category thành công',
             'name_unique' => 'Category này đã tồn tại trong hệ thống',
         ]
+    ],
+    'contents' => [
+        'contents_list' => 'Danh sách bài viết',
+        'contents_add' => 'Thêm mới bài viết',
+        'contents_delete' => 'Xóa bài viết',
+        'contents_category' => 'Chọn category',
+        'contents_title' => 'Tiêu đề bài viết',
+        'contents_shore_desc' => 'Miêu tả ngắn',
+        'contents_desc' => 'Nội dung bài viết',
+        'contents_thumbnail' => 'Ảnh đại diện',
+        'contents_page_list' => 'Danh sách page',
+        'messages' => [
+            'title_required' => 'Hãy nhập vào tiêu đề bài viết',
+            'success_add' => 'Thêm mới bài viết thành công',
+            'success_edit' => 'Cập nhật bài viết thành công',
+            'success_delete' => 'Bạn đã xóa bài viết thành công'
+        ]
     ]
 
 ];

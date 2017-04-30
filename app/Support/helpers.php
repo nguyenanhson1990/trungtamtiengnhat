@@ -8,8 +8,7 @@
 
 function render_multi_menu($data,$seperator,$parent_id,$old)
 {
-
-    foreach($data as $value):
+    foreach($data as $key => $value):
 
         if($value['parent_id'] == $parent_id)
         {
@@ -19,6 +18,7 @@ function render_multi_menu($data,$seperator,$parent_id,$old)
             }else{
                 echo  "<option value=".$value['id'].">".$seperator.$value['name'] ."</option>";
             }
+            unset($data[$key]);
             render_multi_menu($data,$seperator . '-- ',$value['id'],$old);
         }
 
@@ -34,12 +34,21 @@ function render_multi_cat($data,$seperator,$parent_id)
             echo '<td>'.$stt++.'</td>';
             echo '<td>'.$seperator.$value['name'].'</td>';
             echo '<td>'.$value['desc'].'</td>';
-            echo "<td class='text-center'><a href='".Route('category_edit',['id' => $value['id']])."'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
+            echo "<td class='text-center'><a href='".Route('category_edit',['id' => $value['id'],'limit' => Request::get('limit'),'page' => Request::get('page')])."'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
                                         | <a href='#' class='openModel' modalTitle='". __('admin.category.modal_delete_title'). "' data-toggle='modal'
                                         data-target='#modal-component' datacatname='".$value['name']."' datacat_id='".$value['id']."'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
             echo '</tr>';
-
+            unset($data[$key]);
             render_multi_cat($data,$seperator . '--| ', $value['id']);
-            endif;
-        endforeach;
+         endif;
+    endforeach;
+}
+
+function page_limit($limit, $record_per_page)
+{
+    if(empty($limit)){
+        $limit = $record_per_page;
+    }
+
+    return $limit;
 }

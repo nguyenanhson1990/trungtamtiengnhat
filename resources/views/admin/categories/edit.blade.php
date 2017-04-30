@@ -43,7 +43,7 @@
                                 <label>{{__('admin.category.parent')}}</label>
                                 <select class="form-control" name="parent_id">
                                     <option value="0">{{__('admin.category.root')}}</option>
-                                    {{ render_multi_menu($parent_cat,"",0, !empty(old('parent_id')) ? old('parent_id') : $category->id ) }}
+                                    {{ render_multi_menu($parent_cat,"",0, !empty(old('parent_id')) ? old('parent_id') : $category->parent_id ) }}
                                 </select>
                             </div>
                             <div class="form-group @if($errors->has('name')) has-error @endif">
@@ -54,8 +54,10 @@
                                 <label for="desc">{{ __('admin.category.category_desc') }}</label>
                                 <textarea class="form-control" id="desc" name="desc" rows="3" value="{{ !empty(old('desc')) ? old('desc') : $category->desc }}">{{ !empty(old('desc')) ? old('desc') : $category->desc }}</textarea>
                             </div>
+                            <input type="hidden" name="limit" value="{{Request::get('limit')}}">
+                            <input type="hidden" name="page" value="{{Request::get('page')}}">
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
                                 <button type="reset" class="btn btn-warning">Reset</button>
                                 <a href="{{Route('categories')}}">
                                     <button type="button" class="btn btn-danger">Quay lại</button>

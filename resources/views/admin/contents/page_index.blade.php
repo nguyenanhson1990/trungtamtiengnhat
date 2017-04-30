@@ -1,13 +1,13 @@
 @extends('layouts.admin.master')
 @section('title','Home Page')
 @section('styles')
-    <!-- Custom Css -->
-    <link href="{{asset('css/admin/user/user.css')}}" rel="stylesheet" type="text/css">
-    @endsection
+        <!-- Custom Css -->
+<link href="{{asset('css/admin/contents/content.css')}}" rel="stylesheet" type="text/css">
+@endsection
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{__('admin.nav.user_management')}}</h1>
+            <h1 class="page-header">{{__('admin.nav.content_management_page')}}</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -19,10 +19,10 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-10">
-                            {{__('admin.users.user_list')}}
+                            {{__('admin.contents.contents_page_list')}}
                         </div>
                         <div class="col-sm-2 text-right">
-                            <a href="{{Route('create')}}">
+                            <a href="{{Route('contents_create')}}">
                                 <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -32,7 +32,7 @@
                 <div class="panel-body">
                     <div class="row pd-5">
                         <div class="col-sm-6">
-                            <form class="form-inline" action="{{Route('users')}}">
+                            <form class="form-inline" action="{{Route('contents_page')}}">
                                 <div class="form-group">
                                     <label for="limit">{{ __('admin.shows') }}</label>
                                     <select onchange="this.form.submit();" name="limit" aria-controls="dataTables-example" class="form-control input-sm">
@@ -49,41 +49,39 @@
                             <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">First Name</th>
-                                <th class="text-center">Last Name</th>
-                                <th class="text-center">Username</th>
+                                <th class="text-center">{{__('admin.contents.contents_title')}}</th>
+                                <th class="text-center">{{__('admin.contents.contents_shore_desc')}}</th>
+                                <th class="text-center">{{__('admin.contents.contents_thumbnail')}}</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php $stt = 1; ?>
-                            @forelse($users as $item)
+                            @forelse($contents as $item)
                                 <tr>
                                     <td>{{$stt++}}</td>
-                                    <td>{{$item->first_name}}</td>
-                                    <td>{{$item->last_name}}</td>
-                                    <td>{{$item->email}}</td>
-                                    <td class="text-center">
-                                        <a href="{{Route('user_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        @if($item->id != 4)
-                                        | <a href="#" class="openModel" modalTitle="{{ __('admin.users.modal_delete_title') }}" data-toggle="modal"
-                                        data-target="#modal-component" datausername="{{ $item->last_name .' '. $item->first_name  }}"
-                                        datauser_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            @endif
+                                    <td>{{$item->title}}</td>
+                                    <td>{{$item->short_content}}</td>
+                                    <td><img src="{{$item->thumbnail}}" title="{{$item->title}}"></td>
+                                    <td>
+                                        <a href="{{Route('contents_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        <a href="#" class="openModel" modalTitle="{{ __('admin.users.contents_delete') }}" data-toggle="modal"
+                                                 data-target="#modal-component"
+                                                 datacontent_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5">Record empty</td>
-                                    </tr>
-                                @endforelse
+                            @empty
+                                <tr>
+                                    <td colspan="5">Record empty</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
                     <div class="row">
                         <div class="col-sm-12 text-right">
-                            {{ $users->appends(['limit'=>$limit])->links() }}
+                            {{ $contents->appends(request()->input())->links() }}
                         </div>
                     </div>
                 </div>
@@ -93,11 +91,11 @@
         </div>
     </div>
     <!-- /.row -->
-@endsection
-@section('scripts')
-    <!-- users js -->
+    @endsection
+    @section('scripts')
+            <!-- users js -->
     <script type="text/javascript">
-    var get_form_delete_url = "{{ Route('user_delete_form')  }}";
+        var get_form_delete_url = "{{ Route('contents_delete_form')  }}";
     </script>
-    <script src="{{asset('js/admin/users/app.js')}}"></script>
+    <script src="{{asset('js/admin/contents/app.js')}}"></script>
 @endsection

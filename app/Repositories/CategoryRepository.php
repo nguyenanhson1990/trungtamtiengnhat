@@ -27,8 +27,7 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function update($id,$array_data)
     {
         $category = Categories::where('id',$id);
-        $category->update($array_data);
-        return $category->save();
+        return $category->update($array_data);
     }
 
     public function add($array_data)

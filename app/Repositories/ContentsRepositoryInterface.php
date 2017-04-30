@@ -9,7 +9,19 @@
 namespace App\Repositories;
 
 
-class ContentsRepositoryInterface
+interface ContentsRepositoryInterface
 {
     public function __construct();
+
+    public function getAll($type);
+
+    public function get($data);
+
+    public function findById($id);
+
+    public function create($data);
+
+    public function update($data ,$id);
+
+    public function delete($id);
 }

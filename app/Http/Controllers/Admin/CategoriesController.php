@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryFormRequest;
-use App\Models\Categories;
+
 use App\Repositories\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -100,7 +100,12 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         $category = $this->category->find($id)->first();
+
         $parent_cat = $this->category->get(['id','parent_id','name'])->toArray();
+
+        $parent_cat = array_filter($parent_cat, function($pa_cat) use ( $id ){
+            return $pa_cat['id'] != $id;
+        });
 
         return view('admin.categories.edit',compact('category','parent_cat'));
     }
@@ -114,14 +119,14 @@ class CategoriesController extends Controller
      */
     public function update(CategoryFormRequest $request, $id)
     {
-        $this->category->update($id,$request->except('_token'));
+        $this->category->update($id,$request->except('_token','limit','page'));
 
         Session::flash('flash_notify',[
             'level' => 'success',
             'message' => __('admin.category.messages.success_edit')
         ]);
 
-        return redirect()->back();
+        return redirect()->route('categories');
     }
 
     /**

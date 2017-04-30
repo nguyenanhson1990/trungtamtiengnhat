@@ -39,4 +39,16 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
       Route::get('/delete/getform','CategoriesController@builform')->name('category_delete_form');
       Route::post('/delete','CategoriesController@destroy')->name('category_destroy');
    });
+
+   Route::group(['prefix' => 'contents', 'middleware' => ['checkAuth']], function (){
+      Route::get('/pages','ContentsController@page_index')->name('contents_page');
+      Route::get('/create','ContentsController@create')->name('contents_create');
+      Route::post('/store','ContentsController@store')->name('contents_store');
+
+      Route::get('/edit/{id}','ContentsController@edit')->name('contents_edit');
+      Route::post('/update/{id}','ContentsController@update')->name('contents_update');
+
+      Route::get('/delete/getform','ContentsController@builform')->name('contents_delete_form');
+      Route::post('/delete','ContentsController@destroy')->name('contents_destroy');
+   });
 });
