@@ -9,6 +9,10 @@
 
         <title>@lang('admin.title') - @yield('title')</title>
 
+        <!-- Jquery Ui Core CSS -->
+        <link href="{{asset('css/admin/libs/jquery-ui.min.css')}}" rel="stylesheet">
+        <link href="{{asset('css/admin/libs/jquery-ui.theme.min.css')}}" rel="stylesheet">
+
         <!-- Bootstrap Core CSS -->
         <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
@@ -24,6 +28,10 @@
 
         <!-- Custom Fonts -->
         <link href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+
+        <!-- Boostrap tagsinput Core CSS -->
+        <link href="{{asset('css/admin/libs/bootstrap-tagsinput.css')}}" rel="stylesheet">
+        <link href="{{asset('css/admin/libs/bootstrap-tagsinput.theme.css')}}" rel="stylesheet">
 
         <!-- extras Stylesheet -->
         @yield('styles')
@@ -53,6 +61,9 @@
         <!-- jQuery -->
         <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
+        <!-- jQuery Ui Lib -->
+        <script src="{{asset('js/admin/libs/jquery-ui.min.js')}}"></script>
+
         <!-- Bootstrap Core JavaScript -->
         <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
@@ -64,6 +75,9 @@
 
         <!-- Admin component JavaScript -->
         <script src="{{asset('js/admin/component/admin.js')}}"></script>
+
+        <!-- Boostrap tags input Ui Lib -->
+        <script src="{{asset('js/admin/libs/bootstrap-tagsinput.min.js')}}"></script>
 
         <!-- extras JavaScript -->
         @yield('scripts')

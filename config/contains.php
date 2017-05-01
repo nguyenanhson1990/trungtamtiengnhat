@@ -9,5 +9,10 @@
 
 return [
     'record_per_page' => ['10','25','50','100'],
-    'limit' => 10
+    'limit' => 10,
+
+    'status' => [
+        '0' => 'Invisible',
+        '1' => 'Display'
+    ]
 ];

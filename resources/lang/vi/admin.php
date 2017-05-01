@@ -67,15 +67,28 @@ return [
         'contents_delete' => 'Xóa bài viết',
         'contents_category' => 'Chọn category',
         'contents_title' => 'Tiêu đề bài viết',
+        'contents_slug' => 'Tiêu đề frendly',
         'contents_shore_desc' => 'Miêu tả ngắn',
         'contents_desc' => 'Nội dung bài viết',
         'contents_thumbnail' => 'Ảnh đại diện',
         'contents_page_list' => 'Danh sách page',
+        'contents_og_enddate' => 'Ngày kết thúc',
+        'contents_og_desc' => 'SEO Description',
+        'contents_og_keyword' => 'SEO Keyword',
+        'publish' => 'Xuất bản',
+        'status' => 'Trạng thái',
         'messages' => [
             'title_required' => 'Hãy nhập vào tiêu đề bài viết',
             'success_add' => 'Thêm mới bài viết thành công',
             'success_edit' => 'Cập nhật bài viết thành công',
-            'success_delete' => 'Bạn đã xóa bài viết thành công'
+            'success_delete' => 'Bạn đã xóa bài viết thành công',
+            'slug_unique' => 'Slug phải là duy nhất'
+        ],
+        'tooltip' => [
+            'og_keyword' => 'Nhập từ khóa của bài viết cho việc SEO',
+            'og_desc' => 'Nhập miêu tả của bài viết cho việc SEO',
+            'end_date' => 'Ngày kết thúc hiển thị của bài viết',
+            'status' => 'Trạng thái của bài viết có hiển hay ko'
         ]
     ]
 

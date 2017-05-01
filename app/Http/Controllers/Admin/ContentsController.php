@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\AddContentsFormRequest;
+use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ContentsRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,15 +18,18 @@ class ContentsController extends Controller
      */
 
     protected $contents;
+    protected $categories;
 
-    public function __construct(ContentsRepositoryInterface $contents )
+    public function __construct(ContentsRepositoryInterface $contents, CategoryRepositoryInterface $categories )
     {
         $this->contents = $contents;
+        $this->categories = $categories;
     }
     public function page_index(Request $request)
     {
         $record_per_page = Config::get('contains.record_per_page');
         $limit = $request->get('limit');
+
         if(empty($limit))
         {
             $limit = Config::get('contains.limit');
@@ -40,9 +45,13 @@ class ContentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $type = $request->type;
+
+        $categories  = $this->categories->get(['id','parent_id','name'])->toArray();
+        $status = Config::get('contains.status');
+        return view('admin.contents.create',compact('type','categories','status'));
     }
 
     /**
@@ -51,9 +60,9 @@ class ContentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddContentsFormRequest $request)
     {
-        //
+
     }
 
     /**

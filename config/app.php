@@ -179,6 +179,8 @@ return [
 
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
 
+        JeroenNoten\LaravelCkEditor\ServiceProvider::class,
+
     ],
 
     /*

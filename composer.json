@@ -9,6 +9,7 @@
         "barryvdh/laravel-ide-helper": "^2.3",
         "cartalyst/sentinel": "2.0.*",
         "doctrine/dbal": "^2.5",
+        "jeroennoten/laravel-ckeditor": "^3.8",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
     },

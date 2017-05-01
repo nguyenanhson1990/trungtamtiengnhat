@@ -22,7 +22,7 @@
                             {{__('admin.contents.contents_page_list')}}
                         </div>
                         <div class="col-sm-2 text-right">
-                            <a href="{{Route('contents_create')}}">
+                            <a href="{{Route('contents_create',['type' => 1])}}">
                                 <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -93,9 +93,9 @@
     <!-- /.row -->
     @endsection
     @section('scripts')
-            <!-- users js -->
-    <script type="text/javascript">
-        var get_form_delete_url = "{{ Route('contents_delete_form')  }}";
-    </script>
-    <script src="{{asset('js/admin/contents/app.js')}}"></script>
-@endsection
+        <!-- contents js -->
+        <script type="text/javascript">
+            var get_form_delete_url = "{{ Route('contents_delete_form')  }}";
+        </script>
+        <script src="{{asset('js/admin/contents/app.js')}}"></script>
+    @endsection
