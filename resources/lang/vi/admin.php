@@ -26,6 +26,7 @@ return [
     'ok' => 'OK',
     'delete_confirm' => 'Bạn có muốn xóa:',
     'action' => 'Action',
+    'file_upload' => 'Chọn file upload',
     'nav' => [
             'dashboard' => 'Trang chủ',
             'user_management' => 'Quản lý User',
@@ -82,7 +83,9 @@ return [
             'success_add' => 'Thêm mới bài viết thành công',
             'success_edit' => 'Cập nhật bài viết thành công',
             'success_delete' => 'Bạn đã xóa bài viết thành công',
-            'slug_unique' => 'Slug phải là duy nhất'
+            'slug_unique' => 'Slug phải là duy nhất',
+            'thumbnail_notify' => '*Lưu ý : định dạng ảnh phải là png, jpg, jpeg',
+            'error_upload' =>'Sai định dạng ảnh'
         ],
         'tooltip' => [
             'og_keyword' => 'Nhập từ khóa của bài viết cho việc SEO',

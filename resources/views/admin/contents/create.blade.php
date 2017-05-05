@@ -73,6 +73,16 @@
                             </div>
                                 @endif
                             <div class="form-group">
+                                <label for="btn-thumbnail">{{__('admin.contents.contents_thumbnail')}}</label>
+                                <div class="preview-area"></div>
+                                <label class="ask-rick has-error-upload">{{__('admin.contents.messages.error_upload')}}</label><br>
+                                <label>
+                                    <a href="#" id="file-upload">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
+                                    <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
+                                </label>
+                                <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
+                            </div>
+                            <div class="form-group">
                                 <label for="status">{{__('admin.contents.status')}}</label>
                                 <select class="form-control" name="status" id="status">
                                     @foreach($status as $key => $item)
@@ -80,12 +90,12 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="form-group @if($errors->has('end_date')) has-error @endif">
+                            <div class="form-group">
                                 <label class="control-label" for="datepicker">{{ __('admin.contents.contents_og_enddate') }}</label>
                                 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" title="{{__('admin.contents.tooltip.end_date')}}"></i>
                                 <input id="datepicker" type="text" name="end_date" value="{{old('end_date')}}" class="form-control">
                             </div>
-                            <div class="form-group @if($errors->has('og_keyword')) has-error @endif">
+                            <div class="form-group">
                                 <label class="control-label" for="og_keyword">{{ __('admin.contents.contents_og_keyword') }}</label>
                                 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" title="{{__('admin.contents.tooltip.og_keyword')}}"></i>
                                 <input id="og_keyword" type="text" name="og_keyword" value="{{old('og_keyword')}}" class="form-control" data-role="tagsinput">

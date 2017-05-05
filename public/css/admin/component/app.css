@@ -1,3 +1,13 @@
 .pd-5{
     padding: 5px !important;
 }
+
+.ask-rick{
+    color: #ff0000;
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.has-error-upload{
+    display: none;
+}

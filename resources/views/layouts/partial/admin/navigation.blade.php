@@ -257,9 +257,9 @@
                             <li>
                                 <a href="{{ Route('contents_page')  }}">@lang('admin.nav.content_management_page')</a>
                             </li>
-                            <li>
-                                <a href="">@lang('admin.nav.content_management_post')</a>
-                            </li>
+                            <!--<li>
+                                <a href=""></a>
+                            </li>-->
                         </ul>
                     <!-- /.nav-second-level -->
                 </li>
