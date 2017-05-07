@@ -65,7 +65,7 @@
                                     <td>{{$item->email}}</td>
                                     <td class="text-center">
                                         <a href="{{Route('user_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        @if($item->id != 4)
+                                        @if($item->id != 1)
                                         | <a href="#" class="openModel" modalTitle="{{ __('admin.users.modal_delete_title') }}" data-toggle="modal"
                                         data-target="#modal-component" datausername="{{ $item->last_name .' '. $item->first_name  }}"
                                         datauser_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>

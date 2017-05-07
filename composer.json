@@ -6,9 +6,11 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "barryvdh/laravel-debugbar": "^2.3",
         "barryvdh/laravel-ide-helper": "^2.3",
         "cartalyst/sentinel": "2.0.*",
         "doctrine/dbal": "^2.5",
+        "folklore/image": "0.3.*",
         "jeroennoten/laravel-ckeditor": "^3.8",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
@@ -20,13 +22,15 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "App/Support"
         ],
         "psr-4": {
             "App\\": "app/"
         },
         "files": [
-            "app/Support/helpers.php"
+            "app/Support/helpers.php",
+            "app/Support/functions.php"
         ]
     },
     "autoload-dev": {

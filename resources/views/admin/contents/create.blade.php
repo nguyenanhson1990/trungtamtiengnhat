@@ -35,12 +35,13 @@
                             </ul>
                         </div>
                     @endif
-                    <form role="form" method="post" id="frm-add-post" action="{{Route('contents_store')}}">
+                    <form role="form" method="post" id="frm-add-post" action="{{Route('contents_store')}}" enctype="multipart/form-data">
                         <div class="col-lg-8">
                                 {{ csrf_field() }}
                                 <div class="form-group @if($errors->has('title')) has-error @endif">
                                     <label class="control-label" for="title">{{ __('admin.contents.contents_title') }} *</label>
                                     <input id="title" type="text" name="title" value="{{old('title')}}" class="form-control">
+                                    <input type="hidden" name="content_type" value="1">
                                 </div>
                                 <div class="form-group @if($errors->has('slug')) has-error @endif">
                                     <label class="control-label" for="slug">{{ __('admin.contents.contents_slug') }}</label>
@@ -54,24 +55,22 @@
                                     @ckeditor('short_content',['height' => 100])
                                 </div>
                                 <div class="form-group">
-                                    <label for="content">{{ __('admin.contents.contents_desc') }}</label>
-                                    <textarea id="content" name="content">
-                                        {{old('content')}}
+                                    <label for="main_content">{{ __('admin.contents.contents_desc') }}</label>
+                                    <textarea id="main_content" name="main_content">
+                                        {{old('main_content')}}
                                     </textarea>
-                                    @ckeditor('content')
+                                    @ckeditor('main_content')
                                 </div>
                         </div>
 
                         <div class="col-lg-4">
-                            @if($type == 2)
                             <div class="form-group">
                                 <label>{{__('admin.contents.contents_category')}}</label>
-                                <select class="form-control" name="parent_id">
-                                    <option value="0">{{__('admin.contents.contents_category')}}</option>
+                                <select class="form-control" name="category_id">
+                                    <option value="1">{{__('admin.contents.contents_uncategory')}}</option>
                                     {{ render_multi_menu($categories,"",0,old('parent_id')) }}
                                 </select>
                             </div>
-                                @endif
                             <div class="form-group">
                                 <label for="btn-thumbnail">{{__('admin.contents.contents_thumbnail')}}</label>
                                 <div class="preview-area"></div>

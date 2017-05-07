@@ -31,28 +31,48 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row pd-5">
-                        <div class="col-sm-6">
-                            <form class="form-inline" action="{{Route('contents_page')}}">
-                                <div class="form-group">
-                                    <label for="limit">{{ __('admin.shows') }}</label>
-                                    <select onchange="this.form.submit();" name="limit" aria-controls="dataTables-example" class="form-control input-sm">
-                                        @foreach($record_per_page as $val)
-                                            <option @if($val == $limit) selected @endif value="{{$val}}">{{$val}}</option>
-                                        @endforeach
-                                    </select> {{ __('admin.entries') }}
-                                </div>
-                            </form>
+                        <form class="form-inline" action="{{Route('contents_page')}}">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="limit">{{ __('admin.shows') }}</label>
+                                <select onchange="this.form.submit();" name="limit" aria-controls="dataTables-example" class="form-control input-sm">
+                                    @foreach($record_per_page as $val)
+                                        <option @if($val == $limit) selected @endif value="{{$val}}">{{$val}}</option>
+                                    @endforeach
+                                </select> {{ __('admin.entries') }}
+                            </div>
                         </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <select  id="category_id" onchange="this.form.submit();" name="category_id" aria-controls="dataTables-example" class="form-control input-sm">
+                                    <option value="">--{{__('admin.contents.contents_category')}}--</option>
+                                    {{ render_multi_menu($categories,"",0,Request::get('category_id')) }}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <select  id="status_id" onchange="this.form.submit();" name="status_id" aria-controls="dataTables-example" class="form-control input-sm">
+                                    <option value="">--{{__('admin.contents.status')}}--</option>
+                                    @foreach($status as $key => $val)
+                                        <option @if($key == $status_id) selected @endif value="{{$key}}">{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">{{__('admin.contents.contents_title')}}</th>
-                                <th class="text-center">{{__('admin.contents.contents_shore_desc')}}</th>
-                                <th class="text-center">{{__('admin.contents.contents_thumbnail')}}</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center" width="20">#</th>
+                                <th class="text-center" width="150">{{__('admin.contents.contents_title')}}</th>
+                                <th class="text-center" width="200">{{__('admin.contents.contents_shore_desc')}}</th>
+                                <th class="text-center" width="100">{{__('admin.contents.contents_thumbnail')}}</th>
+                                <th class="text-center" width="100">{{__('admin.contents.status')}}</th>
+                                <th class="text-center" width="50">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -60,11 +80,25 @@
                             @forelse($contents as $item)
                                 <tr>
                                     <td>{{$stt++}}</td>
-                                    <td>{{$item->title}}</td>
-                                    <td>{{$item->short_content}}</td>
-                                    <td><img src="{{$item->thumbnail}}" title="{{$item->title}}"></td>
-                                    <td>
-                                        <a href="{{Route('contents_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    <td>{{str_limit($item->title,150, '...')}}</td>
+                                    <td>{!! str_limit($item->short_content, 200, '...') !!}</td>
+                                    <td class="text-center">
+                                        @if(!empty($item->thumbnail))
+                                            <img src="{{ Image::url( Storage::url($item->thumbnail),100,88,['crop']) }}" title="{{$item->title}}">
+                                        @else
+                                            <img src="{{ Storage::url('public/uploads/no-image.png') }}" title="{{$item->title}}">
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($item->status == 2)
+                                            <a href="{{Route('contents_change_status', ['status' => 1,'id' => $item->id])}}"><i class="fa fa-pause-circle fa-lg" aria-hidden="true"></i></a>
+                                            @endif
+                                        @if($item->status == 1)
+                                            <a href="{{Route('contents_change_status', ['status' => 2,'id' => $item->id])}}"><i class="fa fa-play-circle-o fa-lg" aria-hidden="true"></i></a>
+                                            @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{Route('contents_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
                                         <a href="#" class="openModel" modalTitle="{{ __('admin.users.contents_delete') }}" data-toggle="modal"
                                                  data-target="#modal-component"
                                                  datacontent_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -72,7 +106,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5">Record empty</td>
+                                    <td colspan="6">Record empty</td>
                                 </tr>
                             @endforelse
                             </tbody>

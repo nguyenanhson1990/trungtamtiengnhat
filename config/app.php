@@ -181,6 +181,10 @@ return [
 
         JeroenNoten\LaravelCkEditor\ServiceProvider::class,
 
+        Folklore\Image\ImageServiceProvider::class,
+
+        Barryvdh\Debugbar\ServiceProvider::class,
+
     ],
 
     /*
@@ -233,6 +237,10 @@ return [
         'Activation' => Cartalyst\Sentinel\Laravel\Facades\Activation::class,
         'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
+
+        'Image' => Folklore\Image\Facades\Image::class,
+
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

@@ -6,6 +6,7 @@ use App\Http\Requests\FormLoginRequest;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class IndexController extends Controller
 {
@@ -45,6 +46,7 @@ class IndexController extends Controller
 
             if(Sentinel::authenticateAndRemember($credentials))
             {
+                $request->session()->put('loged_credentials',$credentials);
                 return redirect()->route($this->redirect);
             }else{
                 return redirect()->back()->withErrors(['msg' => 'Please check your email or password']);

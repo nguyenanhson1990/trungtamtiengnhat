@@ -67,6 +67,7 @@ return [
         'contents_add' => 'Thêm mới bài viết',
         'contents_delete' => 'Xóa bài viết',
         'contents_category' => 'Chọn category',
+        'contents_uncategory' => 'Uncategory',
         'contents_title' => 'Tiêu đề bài viết',
         'contents_slug' => 'Tiêu đề frendly',
         'contents_shore_desc' => 'Miêu tả ngắn',
@@ -85,7 +86,8 @@ return [
             'success_delete' => 'Bạn đã xóa bài viết thành công',
             'slug_unique' => 'Slug phải là duy nhất',
             'thumbnail_notify' => '*Lưu ý : định dạng ảnh phải là png, jpg, jpeg',
-            'error_upload' =>'Sai định dạng ảnh'
+            'error_upload' =>'Sai định dạng ảnh',
+            'fail_upload' =>'Upload ảnh không thành công'
         ],
         'tooltip' => [
             'og_keyword' => 'Nhập từ khóa của bài viết cho việc SEO',

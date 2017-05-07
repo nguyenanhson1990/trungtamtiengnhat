@@ -5,4 +5,10 @@ $(document).ready(function(){
        $('#frm-add-post').submit();
         $(this).prop('disabled',true);
     });
+
+    //render slug
+
+    $('#title').on('keydown', function(){
+        $('#slug').val(slugify($(this).val()));
+    });
 });

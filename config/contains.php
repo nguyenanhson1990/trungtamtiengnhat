@@ -12,7 +12,7 @@ return [
     'limit' => 10,
 
     'status' => [
-        '0' => 'Invisible',
-        '1' => 'Display'
+        '1' => 'Invisible',
+        '2' => 'Display'
     ]
 ];
