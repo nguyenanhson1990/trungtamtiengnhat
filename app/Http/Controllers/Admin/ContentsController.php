@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AddContentsFormRequest;
 use App\Models\Categories;
+use App\Models\Contents;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ContentsRepositoryInterface;
 use App\Support\functions;
@@ -47,9 +48,11 @@ class ContentsController extends Controller
         }
 
         $contents = $this->contents->getAll(1)->latest()
-//                    ->when($category_id, function($query) use ($category_id){
-//                        $query->whereIn('category_id',$category_id);
-//                    })
+                    ->when($category_id, function($query) use ($category_id){
+                        $query->whereHas('categories', function($q) use ($category_id){
+                            $q->where('id', '=', $category_id);
+                        });
+                    })
                     ->when($status_id, function($query) use ($status_id){
                         $query->where('status', $status_id);
                     })
@@ -69,7 +72,6 @@ class ContentsController extends Controller
 
         $categories  = $this->categories->get(['id','parent_id','name'])->toArray();
         $status = Config::get('contains.status');
-        $category = $this->contents->findById(2)->with('categories')->get();
 
         return view('admin.contents.create',compact('type','categories','status'));
     }
@@ -94,7 +96,6 @@ class ContentsController extends Controller
             'og_desc' => $request->og_desc,
         ];
 
-
         if($request->hasFile('thumbnail'))
         {
             $file_name = date('Y-m-d').'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
@@ -116,10 +117,19 @@ class ContentsController extends Controller
 
         $datas['user_id']  = $user_id;
 
-        $query = $this->contents->create($datas);
-        $last_id = $query->id;
-        dd($last_id);
-        if($query)
+        //insert and get last insert id
+        $last_inserted_id = $this->contents->create($datas);
+
+        //if not empty category id array then find and attach to pivot table
+        if($request->category_id)
+        {
+            $inserted_content = Contents::find($last_inserted_id);
+            $inserted_content->categories()->attach($request->category_id);
+        }
+
+        //if has return last insert id , check if last insert id is existed then display success else display error and
+        //return back
+        if($last_inserted_id)
         {
             Session::flash("flash_notify",[
                 'level' => 'success',

@@ -37,7 +37,8 @@ class ContentsRepository implements ContentsRepositoryInterface
     {
         $query = new Contents($data);
         $query->slug = $data['slug'];
-        return $query->save();
+        $query->save();
+        return $query->id;
     }
 
     public function update($data ,$id)
