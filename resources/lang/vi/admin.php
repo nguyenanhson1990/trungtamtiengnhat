@@ -82,6 +82,7 @@ return [
         'messages' => [
             'title_required' => 'Hãy nhập vào tiêu đề bài viết',
             'success_add' => 'Thêm mới bài viết thành công',
+            'error_add' => 'Đã gặp lỗi xảy ra trong quá trình xử lý',
             'success_edit' => 'Cập nhật bài viết thành công',
             'success_delete' => 'Bạn đã xóa bài viết thành công',
             'slug_unique' => 'Slug phải là duy nhất',

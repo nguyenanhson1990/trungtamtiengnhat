@@ -65,13 +65,6 @@
 
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label>{{__('admin.contents.contents_category')}}</label>
-                                <select class="form-control" name="category_id">
-                                    <option value="1">{{__('admin.contents.contents_uncategory')}}</option>
-                                    {{ render_multi_menu($categories,"",0,old('parent_id')) }}
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="btn-thumbnail">{{__('admin.contents.contents_thumbnail')}}</label>
                                 <div class="preview-area"></div>
                                 <label class="ask-rick has-error-upload">{{__('admin.contents.messages.error_upload')}}</label><br>
@@ -80,6 +73,19 @@
                                     <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
                                 </label>
                                 <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
+                            </div>
+                            <div class="form-group">
+                                <label>{{__('admin.contents.contents_category')}}</label><br>
+                                <div class="panel panel-default scroll">
+                                    <div class ="panel-body inner">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="category_id[]" checked id="category_id" value="1"> {{__('admin.contents.contents_uncategory')}}
+                                            </label>
+                                        </div>
+                                        {{ render_category_checkbox($categories,"",0,old('parent_id')) }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="status">{{__('admin.contents.status')}}</label>

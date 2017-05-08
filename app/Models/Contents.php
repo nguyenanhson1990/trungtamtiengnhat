@@ -13,8 +13,8 @@ class Contents extends Model
 
     protected $guarded = [];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo('App\models\categories','category_id');
+        return $this->belongsToMany('App\models\categories','content_category','content_id','category_id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AddContentsFormRequest;
+use App\Models\Categories;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ContentsRepositoryInterface;
 use App\Support\functions;
@@ -46,9 +47,9 @@ class ContentsController extends Controller
         }
 
         $contents = $this->contents->getAll(1)->latest()
-                    ->when($category_id, function($query) use ($category_id){
-                        $query->where('category_id', $category_id);
-                    })
+//                    ->when($category_id, function($query) use ($category_id){
+//                        $query->whereIn('category_id',$category_id);
+//                    })
                     ->when($status_id, function($query) use ($status_id){
                         $query->where('status', $status_id);
                     })
@@ -68,6 +69,7 @@ class ContentsController extends Controller
 
         $categories  = $this->categories->get(['id','parent_id','name'])->toArray();
         $status = Config::get('contains.status');
+        $category = $this->contents->findById(2)->with('categories')->get();
 
         return view('admin.contents.create',compact('type','categories','status'));
     }
@@ -90,15 +92,13 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
-            'category_id' => $request->category_id
         ];
 
 
         if($request->hasFile('thumbnail'))
         {
-            $thumbnail =$request->file('thumbnail');
-            $path = $thumbnail->storeAs('public/uploads/contents', date('Y-m-d').'_'.random_int(0,12).'_'.$thumbnail->getClientOriginalName());
-
+            $file_name = date('Y-m-d').'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
+            $path = functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
             if($request->file('thumbnail')->isValid())
             {
                 $datas['thumbnail'] = $path;
@@ -116,15 +116,25 @@ class ContentsController extends Controller
 
         $datas['user_id']  = $user_id;
 
-        $this->contents->create($datas);
+        $query = $this->contents->create($datas);
+        $last_id = $query->id;
+        dd($last_id);
+        if($query)
+        {
+            Session::flash("flash_notify",[
+                'level' => 'success',
+                'message' => __('admin.contents.messages.success_add')
+            ]);
 
-        Session::flash("flash_notify",[
-            'level' => 'success',
-            'message' => __('admin.contents.messages.success_add')
-        ]);
+            return redirect()->route('contents_page');
+        }else{
+            Session::flash("flash_notify",[
+                'level' => 'error',
+                'message' => __('admin.contents.messages.error_add')
+            ]);
 
-        return redirect()->route('contents_page');
-
+            return redirect()->back();
+        }
     }
 
     /**

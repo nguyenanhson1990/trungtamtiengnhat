@@ -11,3 +11,8 @@
 .has-error-upload{
     display: none;
 }
+
+.scroll .inner{
+    max-height: 150px;
+    overflow-y: scroll;
+}

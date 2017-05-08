@@ -12,8 +12,8 @@ class Categories extends Model
 
     protected $guarded = [];
 
-    public function content()
+    public function contents()
     {
-        return $this->hasMany('App\Models\Contents','category_id','id');
+        return $this->belongsToMany('App\models\contents','content_category','category_id','content_id');
     }
 }

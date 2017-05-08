@@ -44,6 +44,23 @@ function render_multi_cat($data,$seperator,$parent_id)
     endforeach;
 }
 
+function render_category_checkbox($data,$seperator,$parent_id)
+{
+    $stt = 1;
+    foreach($data as $key => $value):
+        if($value['parent_id'] == $parent_id && $value['id'] != 1):
+            echo '<div class="checkbox">';
+            echo '<label>';
+              echo $seperator.'<input type="checkbox" name="category_id[]" id="category_id" value="'.$value['id'].'">' . $value['name'];
+            echo '</label>';
+            echo '</div>';
+
+            unset($data[$key]);
+            render_category_checkbox($data,'&nbsp&nbsp&nbsp&nbsp', $value['id']);
+        endif;
+    endforeach;
+}
+
 function page_limit($limit, $record_per_page)
 {
     if(empty($limit)){
