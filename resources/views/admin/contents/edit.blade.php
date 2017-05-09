@@ -133,6 +133,8 @@
     @section('scripts')
     <script>
         var keyword = "{{$contents->og_keyword}}";
+        CKEDITOR.replace( 'short_content' );
+        CKEDITOR.replace( 'main_content' );
     </script>
     <!-- contents js -->
     <script src="{{asset('js/admin/contents/app.js')}}"></script>

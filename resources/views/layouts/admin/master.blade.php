@@ -79,6 +79,9 @@
         <!-- Boostrap tags input Ui Lib -->
         <script src="{{asset('js/admin/libs/bootstrap-tagsinput.min.js')}}"></script>
 
+        <!-- Ckeditor Core JavaScript -->
+        <script src="{{asset('/templateEditor/ckeditor/ckeditor.js')}}"></script>
+
         <!-- extras JavaScript -->
         @yield('scripts')
     </body>
