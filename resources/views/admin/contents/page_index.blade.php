@@ -98,7 +98,7 @@
                                             @endif
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{Route('contents_edit',['id'=>$item->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
+                                        <a href="{{Route('contents_edit',array_merge(Request::all(),['id'=>$item->id]))}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
                                         <a href="#" class="openModel" modalTitle="{{ __('admin.users.contents_delete') }}" data-toggle="modal"
                                                  data-target="#modal-component"
                                                  datacontent_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>

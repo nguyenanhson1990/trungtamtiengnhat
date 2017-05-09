@@ -179,8 +179,6 @@ return [
 
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
 
-        JeroenNoten\LaravelCkEditor\ServiceProvider::class,
-
         Folklore\Image\ImageServiceProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,

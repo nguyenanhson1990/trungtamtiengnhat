@@ -52,14 +52,12 @@
                                     <textarea id="short_content" name="short_content">
                                         {{old('short_content')}}
                                     </textarea>
-                                    @ckeditor('short_content',['height' => 100])
                                 </div>
                                 <div class="form-group">
                                     <label for="main_content">{{ __('admin.contents.contents_desc') }}</label>
                                     <textarea id="main_content" name="main_content">
                                         {{old('main_content')}}
                                     </textarea>
-                                    @ckeditor('main_content')
                                 </div>
                         </div>
 
@@ -83,7 +81,7 @@
                                                 <input type="checkbox" name="category_id[]" checked id="category_id" value="1"> {{__('admin.contents.contents_uncategory')}}
                                             </label>
                                         </div>
-                                        {{ render_category_checkbox($categories,"",0,old('parent_id')) }}
+                                        {{ render_category_checkbox($categories,"",0,old('category_id')) }}
                                     </div>
                                 </div>
                             </div>

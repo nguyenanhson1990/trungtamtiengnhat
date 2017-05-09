@@ -166,7 +166,17 @@ class ContentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contents = $this->contents->findById($id)->first();
+        $categories  = $this->categories->get(['id','parent_id','name'])->toArray();
+        $status = Config::get('contains.status');
+        $contents_categories_id = [];
+
+        foreach($contents->categories->toArray() as $key => $value)
+        {
+             array_push($contents_categories_id,$value['id']);
+        }
+
+        return view('admin.contents.edit',compact('contents','categories','status','contents_categories_id','id'));
     }
 
     /**
@@ -176,9 +186,63 @@ class ContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AddContentsFormRequest $request, $id)
     {
-        //
+        $datas = [
+            'title' => $request->title,
+            'slug' => !empty($request->slug) ? $request->slug : str_slug($request->title),
+            'content_type' => $request->content_type,
+            'short_content' => $request->short_content,
+            'content' => $request->main_content,
+            'status' => $request->status,
+            'end_date' => functions::to_date_mysql($request->end_date),
+            'og_keyword' => $request->og_keyword,
+            'og_desc' => $request->og_desc,
+            'user_id'  => $request->user_id
+        ];
+
+        if($request->hasFile('thumbnail'))
+        {
+            $file_name = date('Y-m-d').'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
+            $path = functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
+
+            if($request->file('thumbnail')->isValid())
+            {
+                $datas['thumbnail'] = $path;
+            }else{
+                Session::flash("flash_notify",[
+                    'level' => 'error',
+                    'message' => __('admin.contents.messages.fail_upload')
+                ]);
+
+                return redirect()->back();
+            }
+        }
+         $update = $this->contents->update($datas,$id);
+
+        //if not empty category id array then find and attach to pivot table
+        if($request->category_id)
+        {
+            $inserted_content = Contents::find($id);
+            $inserted_content->categories()->sync($request->category_id);
+        }
+
+        //if has return last insert id , check if last insert id is existed then display success else display error and
+        //return back
+        if($update)
+        {
+            Session::flash("flash_notify",[
+                'level' => 'success',
+                'message' => __('admin.contents.messages.success_add')
+            ]);
+
+            return redirect()->route('contents_page')->withInput($request->all());
+        }else {
+            Session::flash("flash_notify", [
+                'level' => 'error',
+                'message' => __('admin.contents.messages.error_add')
+            ]);
+        }
     }
 
     /**
@@ -208,5 +272,14 @@ class ContentsController extends Controller
         $this->contents->update(['status' => $request->status],$request->id);
 
         return redirect()->back();
+    }
+
+    /**
+     * upload image
+     */
+    public function uploadImage(Request $request)
+    {
+        dd($request->all());
+        //functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
     }
 }

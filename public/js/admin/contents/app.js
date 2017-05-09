@@ -7,8 +7,13 @@ $(document).ready(function(){
     });
 
     //render slug
-
     $('#title').on('keydown', function(){
         $('#slug').val(slugify($(this).val()));
     });
+
+    //set keyword when edit contents
+    if(keyword != "")
+    {
+        $('#og_keyword').tagsinput('add', keyword);
+    }
 });
