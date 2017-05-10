@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AddContentsFormRequest;
-use App\Models\Categories;
 use App\Models\Contents;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ContentsRepositoryInterface;
@@ -13,7 +12,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ContentsController extends Controller
 {
@@ -94,24 +92,8 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
+            'thumbnail' => $request->thumbnail
         ];
-
-        if($request->hasFile('thumbnail'))
-        {
-            $file_name = date('Y-m-d').'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
-            $path = functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
-            if($request->file('thumbnail')->isValid())
-            {
-                $datas['thumbnail'] = $path;
-            }else{
-                Session::flash("flash_notify",[
-                    'level' => 'error',
-                    'message' => __('admin.contents.messages.fail_upload')
-                ]);
-
-                return redirect()->back();
-            }
-        }
 
         $user_id = $this->user->findByCredentials(session()->get('loged_credentials'))->id;
 
@@ -198,26 +180,10 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
-            'user_id'  => $request->user_id
+            'user_id'  => $request->user_id,
+            'thumbnail' => $request->thumbnail
         ];
 
-        if($request->hasFile('thumbnail'))
-        {
-            $file_name = date('Y-m-d').'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
-            $path = functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
-
-            if($request->file('thumbnail')->isValid())
-            {
-                $datas['thumbnail'] = $path;
-            }else{
-                Session::flash("flash_notify",[
-                    'level' => 'error',
-                    'message' => __('admin.contents.messages.fail_upload')
-                ]);
-
-                return redirect()->back();
-            }
-        }
          $update = $this->contents->update($datas,$id);
 
         //if not empty category id array then find and attach to pivot table
@@ -272,14 +238,5 @@ class ContentsController extends Controller
         $this->contents->update(['status' => $request->status],$request->id);
 
         return redirect()->back();
-    }
-
-    /**
-     * upload image
-     */
-    public function uploadImage(Request $request)
-    {
-        dd($request->all());
-        //functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
     }
 }

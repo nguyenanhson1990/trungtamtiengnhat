@@ -179,9 +179,11 @@ return [
 
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
 
-        Folklore\Image\ImageServiceProvider::class,
-
         Barryvdh\Debugbar\ServiceProvider::class,
+
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+
 
     ],
 
@@ -236,9 +238,9 @@ return [
         'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
 
-        'Image' => Folklore\Image\Facades\Image::class,
-
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
+        'Images' => Intervention\Image\Facades\Image::class
 
     ],
 

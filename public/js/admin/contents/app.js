@@ -12,7 +12,7 @@ $(document).ready(function(){
     });
 
     //set keyword when edit contents
-    if(keyword != "")
+    if(typeof keyword != 'undefined')
     {
         $('#og_keyword').tagsinput('add', keyword);
     }
