@@ -220,6 +220,8 @@ class ContentsController extends Controller
 
                 return redirect()->back();
             }
+        }else{
+            $datas['thumbnail'] = '';
         }
          $update = $this->contents->update($datas,$id);
 

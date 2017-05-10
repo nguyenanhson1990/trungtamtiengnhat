@@ -86,7 +86,7 @@
                                         @if(!empty($item->thumbnail))
                                             <img src="{{ Storage::url($item->thumbnail) }}" title="{{$item->title}}">
                                         @else
-                                            <img src="{{ asset('public/uploads/no-image.png') }}" title="{{$item->title}}">
+                                            <img src="{{ Storage::url('public/no-image.jpg') }}" title="{{$item->title}}">
                                         @endif
                                     </td>
                                     <td class="text-center">
