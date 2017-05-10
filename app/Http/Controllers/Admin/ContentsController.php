@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AddContentsFormRequest;
-use App\Models\Categories;
 use App\Models\Contents;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ContentsRepositoryInterface;
