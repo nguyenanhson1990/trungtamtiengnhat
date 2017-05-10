@@ -66,13 +66,19 @@
                                 <label for="btn-thumbnail">{{__('admin.contents.contents_thumbnail')}}</label>
                                 <div class="preview-area">
                                     @if(!empty($contents->thumbnail))
-                                        <img src="{{ asset($contents->thumbnail) }}" title="{{$contents->title}}">
-                                    @endif
+                                        <img id="holder" src="{{ asset($contents->thumbnail) }}" width="100%" title="{{$contents->title}}">
+                                    @else
+                                        <img id="holder" width="100%">
+                                        @endif
                                 </div>
                                 <label class="ask-rick has-error-upload">{{__('admin.contents.messages.error_upload')}}</label><br>
-                                <label>
-                                    <a href="#" id="file-upload">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
+                                <!--<label>
+                                    <a href="#" id="file-upload">__('admin.file_upload')</a>&nbsp&nbsp<a href="#" id="remove-upload">__('admin.delete')</a>
                                     <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
+                                </label>-->
+                                <label>
+                                    <a id="lfm" data-input="thumbnail" data-preview="holder">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
+                                    <input id="thumbnail" class="form-control" type="hidden" value="{{ $contents->thumbnail  }}" name="thumbnail">
                                 </label>
                                 <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
                             </div>

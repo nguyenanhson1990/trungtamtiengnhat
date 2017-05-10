@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ContentsController extends Controller
 {
@@ -96,25 +93,8 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
+            'thumbnail' => $request->thumbnail
         ];
-
-        if($request->hasFile('thumbnail'))
-        {
-            $file_name = $request->slug.'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
-            $path = functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
-
-            if(Storage::exists($path))
-            {
-                $datas['thumbnail'] = $path;
-            }else{
-                Session::flash("flash_notify",[
-                    'level' => 'error',
-                    'message' => __('admin.contents.messages.fail_upload')
-                ]);
-
-                return redirect()->back()->withInput();
-            }
-        }
 
         $user_id = $this->user->findByCredentials(session()->get('loged_credentials'))->id;
 
@@ -201,28 +181,10 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
-            'user_id'  => $request->user_id
+            'user_id'  => $request->user_id,
+            'thumbnail' => $request->thumbnail
         ];
 
-        if($request->hasFile('thumbnail'))
-        {
-            $file_name = $request->slug.'_'.random_int(0,12).'_'.$request->file('thumbnail')->getClientOriginalName();
-            $path = functions::upload_file($request->file('thumbnail'),'public/uploads/contents',$file_name);
-
-            if(Storage::exists($path))
-            {
-                $datas['thumbnail'] = $path;
-            }else{
-                Session::flash("flash_notify",[
-                    'level' => 'error',
-                    'message' => __('admin.contents.messages.fail_upload')
-                ]);
-
-                return redirect()->back();
-            }
-        }else{
-            $datas['thumbnail'] = '';
-        }
          $update = $this->contents->update($datas,$id);
 
         //if not empty category id array then find and attach to pivot table
