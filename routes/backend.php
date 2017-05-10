@@ -45,7 +45,6 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
       Route::get('/create','ContentsController@create')->name('contents_create');
       Route::post('/store','ContentsController@store')->name('contents_store');
       Route::get('/changestatus','ContentsController@changestatus')->name('contents_change_status');
-      Route::get('/uploadImage','ContentsController@uploadImage')->name('contents_uploadImage');
 
       Route::get('/edit/{id}','ContentsController@edit')->name('contents_edit');
       Route::post('/update/{id}','ContentsController@update')->name('contents_update');
