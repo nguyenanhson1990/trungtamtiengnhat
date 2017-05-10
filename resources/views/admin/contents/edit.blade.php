@@ -67,8 +67,6 @@
                                 <div class="preview-area">
                                     @if(!empty($contents->thumbnail))
                                         <img src="{{ asset($contents->thumbnail) }}" title="{{$contents->title}}">
-                                    @else
-                                        <img src="{{ asset('public/uploads/no-image.png') }}" title="{{$contents->title}}">
                                     @endif
                                 </div>
                                 <label class="ask-rick has-error-upload">{{__('admin.contents.messages.error_upload')}}</label><br>
