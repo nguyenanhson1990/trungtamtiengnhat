@@ -16,6 +16,10 @@ $(document).ready(function () {
         e.preventDefault();
         $('.preview-area').html('');
     });
+
+    $('.check_all').on('click', function(e){
+        $('.check_all_item').prop('checked', $(this).prop('checked'));
+    });
 });
 
 function previewImage(input){

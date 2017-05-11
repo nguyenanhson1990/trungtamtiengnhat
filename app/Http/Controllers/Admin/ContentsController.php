@@ -228,7 +228,7 @@ class ContentsController extends Controller
                 $datas['thumbnail'] = $destination.$file_name;
             }else{
                 Session::flash("flash_notify",[
-                    'level' => 'error',
+                    'level' => 'danger',
                     'message' => __('admin.contents.messages.fail_upload')
                 ]);
                 return redirect()->back()->withInput();
@@ -256,7 +256,7 @@ class ContentsController extends Controller
             return redirect()->route('contents_page')->withInput($request->all());
         }else {
             Session::flash("flash_notify", [
-                'level' => 'error',
+                'level' => 'danger',
                 'message' => __('admin.contents.messages.error_add')
             ]);
         }
@@ -270,8 +270,25 @@ class ContentsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $this->contents->update(['status' => 1],$request->content_id);
-        $this->contents->delete($request->content_id);
+        if($request->ids)
+        {
+            foreach(json_decode($request->ids) as $item)
+            {
+                $this->contents->update(['status' => 1],$item);
+                $this->contents->delete($item);
+            }
+        }
+
+        if($request->content_id)
+        {
+            $this->contents->update(['status' => 1],$request->content_id);
+            $this->contents->delete($request->content_id);
+        }
+        Session::flash('flash_notify',[
+            'level' => 'danger',
+            'message' => __('admin.contents.messages.success_delete')
+        ]);
+
         return redirect()->back();
     }
 
@@ -291,6 +308,11 @@ class ContentsController extends Controller
     {
         $this->contents->update(['status' => $request->status],$request->id);
 
+        Session::flash('flash_notify',[
+           'level' => 'success',
+            'message' => __('admin.contents.messages.success_change_status')
+        ]);
+
         return redirect()->back();
     }
 
@@ -301,6 +323,11 @@ class ContentsController extends Controller
     {
         $this->contents->restore($request->id);
 
+        Session::flash('flash_notify',[
+            'level' => 'success',
+            'message' => __('admin.contents.messages.success_restore')
+        ]);
+
         return redirect()->back();
     }
 
@@ -309,7 +336,22 @@ class ContentsController extends Controller
      */
     public function delete_permanly(Request $request)
     {
-        $this->contents->deletePermanently($request->id);
+        if($request->ids)
+        {
+            foreach(json_decode($request->ids) as $item) {
+                $this->contents->deletePermanently($item);
+            }
+        }
+        if($request->id)
+        {
+            $this->contents->deletePermanently($request->id);
+        }
+
+        Session::flash('flash_notify',[
+            'level' => 'danger',
+            'message' => __('admin.contents.messages.success_delete')
+        ]);
+
         return redirect()->back();
     }
 }

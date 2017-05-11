@@ -45,4 +45,16 @@ $(document).ready(function(){
             });
         });
     }
+
+    //delete all
+    $('.btn_delete_all').on('click',function(e){
+        var ids = [];
+        $(".check_all_item:checked").each(function(i,e){
+            ids.push($(e).val());
+        });
+        $(this).parent().parent().find('input[name=ids]').val(JSON.stringify(ids));
+
+        $(this).prop('disabled',true);
+        $('.frmDeleteAll').submit();
+    });
 });

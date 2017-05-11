@@ -32,44 +32,52 @@
                 <div class="panel-body">
                     <div class="row pd-5">
                         <form class="form-inline" action="{{Route('contents_page')}}">
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="limit">{{ __('admin.shows') }}</label>
-                                <select onchange="this.form.submit();" name="limit" aria-controls="dataTables-example" class="form-control input-sm">
-                                    @foreach($record_per_page as $val)
-                                        <option @if($val == $limit) selected @endif value="{{$val}}">{{$val}}</option>
-                                    @endforeach
-                                </select> {{ __('admin.entries') }}
-                            </div>
-                        </div>
-
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <select  id="category_id" onchange="this.form.submit();" name="category_id" aria-controls="dataTables-example" class="form-control input-sm">
-                                    <option value="">--{{__('admin.contents.contents_category')}}--</option>
-                                    {{ render_multi_menu($categories,"",0,Request::get('category_id')) }}
-                                </select>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="limit">{{ __('admin.shows') }}</label>
+                                    <select onchange="this.form.submit();" name="limit" aria-controls="dataTables-example" class="form-control input-sm">
+                                        @foreach($record_per_page as $val)
+                                            <option @if($val == $limit) selected @endif value="{{$val}}">{{$val}}</option>
+                                        @endforeach
+                                    </select> {{ __('admin.entries') }}
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <select  id="status_id" onchange="this.form.submit();" name="status_id" aria-controls="dataTables-example" class="form-control input-sm">
-                                    <option value="">--{{__('admin.contents.status')}}--</option>
-                                    @foreach($status as $key => $val)
-                                        <option @if($key == $status_id) selected @endif value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <select  id="category_id" onchange="this.form.submit();" name="category_id" aria-controls="dataTables-example" class="form-control input-sm">
+                                        <option value="">--{{__('admin.contents.contents_category')}}--</option>
+                                        {{ render_multi_menu($categories,"",0,Request::get('category_id')) }}
+                                    </select>
+                                </div>
 
-                            <div class="form-group">
-                                <select onchange="this.form.submit();" name="trashed" aria-controls="dataTables-example" class="form-control input-sm">
-                                    <option value="">--{{__('admin.history')}}--</option>
-                                    @foreach($trashed as $key => $val)
-                                        <option @if($key == Request::get('trashed')) selected @endif value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-group">
+                                    <select  id="status_id" onchange="this.form.submit();" name="status_id" aria-controls="dataTables-example" class="form-control input-sm">
+                                        <option value="">--{{__('admin.contents.status')}}--</option>
+                                        @foreach($status as $key => $val)
+                                            <option @if($key == $status_id) selected @endif value="{{$key}}">{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select onchange="this.form.submit();" name="trashed" aria-controls="dataTables-example" class="form-control input-sm">
+                                        <option value="">--{{__('admin.history')}}--</option>
+                                        @foreach($trashed as $key => $val)
+                                            <option @if($key == Request::get('trashed')) selected @endif value="{{$key}}">{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                         </form>
+                        <div class="col-sm-2">
+                            <form name="frmDeleteAll" class="frmDeleteAll" @if(Request::get('trashed') == 1) method="get" @else method="post" @endif  action="@if(Request::get('trashed') == 1) {{Route('delete_permanly')}} @else {{Route('contents_destroy')}} @endif">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="ids">
+                                <div class="pull-right">
+                                    <button class="btn btn-danger btn_delete_all">{{__('admin.delete_all')}}</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover">
@@ -81,6 +89,9 @@
                                 <th class="text-center" width="100">{{__('admin.contents.contents_thumbnail')}}</th>
                                 <th class="text-center" width="100">{{__('admin.contents.status')}}</th>
                                 <th class="text-center" width="50">Action</th>
+                                <th class="text-center" width="50">
+                                    <input type="checkbox" class="check_all"/>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -110,18 +121,21 @@
                                     <td class="text-center">
                                         @if(Request::get('trashed') == 1)
                                             <a href="{{Route('contents_restore',['id'=>$item->id])}}"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
-                                            <a href="{{Route('delete_permanly',['id'=>$item->id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            <a onclick="javascript:return confirm('{{ __('admin.contents.messages.delete_permanly') }}');" href="{{Route('delete_permanly',['id'=>$item->id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                             @else
-                                        <a href="{{Route('contents_edit',array_merge(Request::all(),['id'=>$item->id]))}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
-                                        <a href="#" class="openModel" modalTitle="{{ __('admin.contents.contents_delete') }}" data-toggle="modal"
-                                                 data-target="#modal-component"
+                                                <a href="{{Route('contents_edit',array_merge(Request::all(),['id'=>$item->id]))}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
+                                                <a href="#" class="openModel" modalTitle="{{ __('admin.contents.contents_delete') }}" data-toggle="modal"
+                                                         data-target="#modal-component"
                                                  datacontent_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                             @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="check_all_item" value="{{$item->id}}" />
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6">Record empty</td>
+                                    <td colspan="7">Record empty</td>
                                 </tr>
                             @endforelse
                             </tbody>
