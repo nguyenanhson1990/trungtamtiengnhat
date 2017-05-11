@@ -3,7 +3,9 @@ $(document).ready(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+        dateFormat: "dd/mm/yy"
+    });
 
     //upload file image
     $('#file-upload').on('click', function(e){

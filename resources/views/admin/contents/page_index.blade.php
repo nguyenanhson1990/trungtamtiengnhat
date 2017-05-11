@@ -43,20 +43,28 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-8">
                             <div class="form-group">
                                 <select  id="category_id" onchange="this.form.submit();" name="category_id" aria-controls="dataTables-example" class="form-control input-sm">
                                     <option value="">--{{__('admin.contents.contents_category')}}--</option>
                                     {{ render_multi_menu($categories,"",0,Request::get('category_id')) }}
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
+
                             <div class="form-group">
                                 <select  id="status_id" onchange="this.form.submit();" name="status_id" aria-controls="dataTables-example" class="form-control input-sm">
                                     <option value="">--{{__('admin.contents.status')}}--</option>
                                     @foreach($status as $key => $val)
                                         <option @if($key == $status_id) selected @endif value="{{$key}}">{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select onchange="this.form.submit();" name="trashed" aria-controls="dataTables-example" class="form-control input-sm">
+                                    <option value="">--{{__('admin.history')}}--</option>
+                                    @foreach($trashed as $key => $val)
+                                        <option @if($key == Request::get('trashed')) selected @endif value="{{$key}}">{{$val}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -81,12 +89,14 @@
                                 <tr>
                                     <td>{{$stt++}}</td>
                                     <td>{{str_limit($item->title,150, '...')}}</td>
-                                    <td>{!! str_limit($item->short_content, 200, '...') !!}</td>
+                                    <td>
+                                        {!! str_limit($item->short_content,200,'...') !!}
+                                    </td>
                                     <td class="text-center">
                                         @if(!empty($item->thumbnail))
                                             <img src="{{ Image::url(asset($item->thumbnail),100,88,array('crop','grayscale')) }}" title="{{$item->title}}">
                                         @else
-                                            <img src="{{ asset('public/no-image.jpg') }}" title="{{$item->title}}">
+                                            <img src="{{ asset('uploads/no-image.png') }}" title="{{$item->title}}">
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -98,10 +108,15 @@
                                             @endif
                                     </td>
                                     <td class="text-center">
+                                        @if(Request::get('trashed') == 1)
+                                            <a href="{{Route('contents_restore',['id'=>$item->id])}}"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
+                                            <a href="{{Route('delete_permanly',['id'=>$item->id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            @else
                                         <a href="{{Route('contents_edit',array_merge(Request::all(),['id'=>$item->id]))}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
-                                        <a href="#" class="openModel" modalTitle="{{ __('admin.users.contents_delete') }}" data-toggle="modal"
+                                        <a href="#" class="openModel" modalTitle="{{ __('admin.contents.contents_delete') }}" data-toggle="modal"
                                                  data-target="#modal-component"
                                                  datacontent_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            @endif
                                     </td>
                                 </tr>
                             @empty

@@ -58,16 +58,16 @@ class ContentsRepository implements ContentsRepositoryInterface
         return Contents::withTrashed();
     }
 
-    public function restore($ids)
+    public function restore($id)
     {
-        $query = Contents::whereIn('id',$ids);
+        $query = Contents::where('id',$id);
         return $query->restore();
     }
 
-    public function deletePermanently($ids)
+    public function deletePermanently($id)
     {
-        $query = Contents::whereIn('id',$ids);
+        $query = Contents::withTrashed()->find($id);
+        $query->categories()->detach();
         return $query->forceDelete();
     }
-
 }

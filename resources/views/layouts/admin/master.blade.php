@@ -82,6 +82,16 @@
         <!-- Ckeditor Core JavaScript -->
         <script src="{{asset('/templateEditor/ckeditor/ckeditor.js')}}"></script>
 
+        <script type="text/javascript">
+            var options = {
+                filebrowserBrowseUrl : "{{asset('templateEditor/ckfinder/ckfinder.html')}}",
+                filebrowserImageBrowseUrl : "{{asset('templateEditor/ckfinder/ckfinder.html?Type=Images')}}",
+                filebrowserUploadUrl : "{{asset('templateEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files')}}",
+                filebrowserImageUploadUrl : "{{asset('templateEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images')}}",
+                filebrowserFlashBrowseUrl : "{{asset('templateEditor/ckfinder/ckfinder.html?type=Flash')}}",
+                filebrowserFlashUploadUrl : "{{asset('templateEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash')}}"
+            }
+        </script>
         <!-- extras JavaScript -->
         @yield('scripts')
     </body>

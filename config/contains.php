@@ -14,5 +14,10 @@ return [
     'status' => [
         '1' => 'Invisible',
         '2' => 'Display'
+    ],
+
+    'trashed' => [
+        '1' => 'Trashed',
+        '2' => 'All'
     ]
 ];

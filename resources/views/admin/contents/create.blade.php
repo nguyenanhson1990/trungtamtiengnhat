@@ -49,9 +49,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="short_content">{{ __('admin.contents.contents_shore_desc') }}</label>
-                                    <textarea id="short_content" class="short_content" name="short_content">
-                                        {{old('short_content')}}
-                                    </textarea>
+                                    <textarea id="short_content" class="short_content form-control" rows="5" name="short_content">{{old('short_content')}}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="main_content">{{ __('admin.contents.contents_desc') }}</label>
@@ -127,8 +125,7 @@
 @endsection
 @section('scripts')
     <script>
-        CKEDITOR.replace( 'short_content');
-        CKEDITOR.replace( 'main_content' );
+        CKEDITOR.replace( 'main_content', options );
     </script>
     <!-- contents js -->
     <script src="{{asset('js/admin/contents/app.js')}}"></script>
