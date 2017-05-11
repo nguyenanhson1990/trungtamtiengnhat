@@ -49,9 +49,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="short_content">{{ __('admin.contents.contents_shore_desc') }}</label>
-                                    <textarea id="short_content" name="short_content">
-                                        {{ !empty(old('short_content')) ? old('short_content') : $contents->short_content}}
-                                    </textarea>
+                                    <textarea id="short_content" class="short_content form-control" rows="5" name="short_content">{{ !empty(old('short_content')) ? old('short_content') : $contents->short_content}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="main_content">{{ __('admin.contents.contents_desc') }}</label>
@@ -66,19 +64,13 @@
                                 <label for="btn-thumbnail">{{__('admin.contents.contents_thumbnail')}}</label>
                                 <div class="preview-area">
                                     @if(!empty($contents->thumbnail))
-                                        <img id="holder" src="{{ asset($contents->thumbnail) }}" width="100%" title="{{$contents->title}}">
-                                    @else
-                                        <img id="holder" width="100%">
-                                        @endif
+                                        <img src="{{asset($contents->thumbnail)}}" width="100%">
+                                    @endif
                                 </div>
                                 <label class="ask-rick has-error-upload">{{__('admin.contents.messages.error_upload')}}</label><br>
-                                <!--<label>
-                                    <a href="#" id="file-upload">__('admin.file_upload')</a>&nbsp&nbsp<a href="#" id="remove-upload">__('admin.delete')</a>
-                                    <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
-                                </label>-->
                                 <label>
-                                    <a id="lfm" data-input="thumbnail" data-preview="holder">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
-                                    <input id="thumbnail" class="form-control" type="hidden" value="{{ $contents->thumbnail  }}" name="thumbnail">
+                                    <a href="#" id="file-upload">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
+                                    <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
                                 </label>
                                 <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
                             </div>
@@ -120,7 +112,7 @@
                                 <textarea class="form-control" id="og_desc" name="og_desc" rows="3" value="{{ !empty(old('og_desc')) ? old('og_desc') : $contents->og_desc}}">{{ !empty(old('og_desc')) ? old('og_desc') : $contents->og_desc}}</textarea>
                             </div>
                             <div class="form-group text-center">
-                                <button type="button" class="btn btn-primary btn-submit">{{__('admin.contents.publish')}}</button>
+                                <button type="button" class="btn btn-primary btn-submit">{{__('admin.contents.edit')}}</button>
                                 <button type="reset" class="btn btn-warning">{{__('admin.reset')}}</button>
                                 <a href="{{Route('contents_page')}}">
                                     <button type="button" class="btn btn-danger">{{__('admin.back')}}</button>
@@ -139,8 +131,7 @@
     @section('scripts')
     <script>
         var keyword = "{{$contents->og_keyword}}";
-        CKEDITOR.replace( 'short_content',options);
-        CKEDITOR.replace( 'main_content',options );
+        CKEDITOR.replace( 'main_content', options );
     </script>
     <!-- contents js -->
     <script src="{{asset('js/admin/contents/app.js')}}"></script>

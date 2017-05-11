@@ -24,4 +24,8 @@ interface ContentsRepositoryInterface
     public function update($data ,$id);
 
     public function delete($id);
+
+    public function restore($id);
+
+    public function deletePermanently($id);
 }

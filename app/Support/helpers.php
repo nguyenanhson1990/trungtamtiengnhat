@@ -10,7 +10,7 @@ function render_multi_menu($data,$seperator,$parent_id,$old)
 {
     foreach($data as $key => $value):
 
-        if($value['parent_id'] == $parent_id && $value['id'] != 1)
+        if($value['parent_id'] == $parent_id)
         {
             if(!empty($old) && $old == $value['id'])
             {

@@ -181,9 +181,7 @@ return [
 
         Barryvdh\Debugbar\ServiceProvider::class,
 
-        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-
+        Folklore\Image\ImageServiceProvider::class,
 
     ],
 
@@ -240,7 +238,7 @@ return [
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
-        'Images' => Intervention\Image\Facades\Image::class
+        'Image' => Folklore\Image\Facades\Image::class,
 
     ],
 

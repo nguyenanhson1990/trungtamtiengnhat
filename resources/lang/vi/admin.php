@@ -27,6 +27,7 @@ return [
     'delete_confirm' => 'Bạn có muốn xóa:',
     'action' => 'Action',
     'file_upload' => 'Chọn file upload',
+    'history' => 'Lịch sử',
     'nav' => [
             'dashboard' => 'Trang chủ',
             'user_management' => 'Quản lý User',
@@ -78,6 +79,7 @@ return [
         'contents_og_desc' => 'SEO Description',
         'contents_og_keyword' => 'SEO Keyword',
         'publish' => 'Xuất bản',
+        'edit' => 'Cập nhật',
         'status' => 'Trạng thái',
         'messages' => [
             'title_required' => 'Hãy nhập vào tiêu đề bài viết',

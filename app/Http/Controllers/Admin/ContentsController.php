@@ -39,24 +39,39 @@ class ContentsController extends Controller
         $category_id = $request->get('category_id');
         $status = Config::get('contains.status');
         $status_id = $request->get('status_id');
+        $trashed = Config::get('contains.trashed');
 
         if(empty($limit))
         {
             $limit = Config::get('contains.limit');
         }
 
-        $contents = $this->contents->getAll(1)->latest()
-                    ->when($category_id, function($query) use ($category_id){
-                        $query->whereHas('categories', function($q) use ($category_id){
-                            $q->where('id', '=', $category_id);
-                        });
-                    })
-                    ->when($status_id, function($query) use ($status_id){
-                        $query->where('status', $status_id);
-                    })
-                    ->paginate($limit);
+        if($request->get('trashed') == 1)
+        {
+            $contents = $this->contents->getAll(1)->onlyTrashed()->latest('updated_at')
+                ->when($category_id, function($query) use ($category_id){
+                    $query->whereHas('categories', function($q) use ($category_id){
+                        $q->where('id', '=', $category_id);
+                    });
+                })
+                ->when($status_id, function($query) use ($status_id){
+                    $query->where('status', $status_id);
+                })
+                ->paginate($limit);
+        }else{
+            $contents = $this->contents->getAll(1)->latest('updated_at')
+                ->when($category_id, function($query) use ($category_id){
+                    $query->whereHas('categories', function($q) use ($category_id){
+                        $q->where('id', '=', $category_id);
+                    });
+                })
+                ->when($status_id, function($query) use ($status_id){
+                    $query->where('status', $status_id);
+                })
+                ->paginate($limit);
+        }
 
-        return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id'));
+        return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id','trashed'));
     }
 
     /**
@@ -91,9 +106,27 @@ class ContentsController extends Controller
             'status' => $request->status,
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
-            'og_desc' => $request->og_desc,
-            'thumbnail' => $request->thumbnail
+            'og_desc' => $request->og_desc
         ];
+
+        if($request->hasFile('thumbnail'))
+        {
+            $thumbnail = $request->file('thumbnail');
+            $destination = 'uploads/contents/thumbnail/';
+            $file_name = $request->slug.'_'.random_int(0,12).'_'.$thumbnail->getClientOriginalName();
+            $upload = functions::upload_file($thumbnail,$destination,$file_name);
+
+            if($upload)
+            {
+                $datas['thumbnail'] = $destination.$file_name;
+            }else{
+                Session::flash("flash_notify",[
+                    'level' => 'error',
+                    'message' => __('admin.contents.messages.fail_upload')
+                ]);
+                return redirect()->back()->withInput();
+            }
+        }
 
         $user_id = $this->user->findByCredentials(session()->get('loged_credentials'))->id;
 
@@ -180,9 +213,27 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
-            'user_id'  => $request->user_id,
-            'thumbnail' => $request->thumbnail
+            'user_id'  => $request->user_id
         ];
+
+        if($request->hasFile('thumbnail'))
+        {
+            $thumbnail = $request->file('thumbnail');
+            $destination = 'uploads/contents/thumbnail/';
+            $file_name = $request->slug.'_'.random_int(0,12).'_'.$thumbnail->getClientOriginalName();
+            $upload = functions::upload_file($thumbnail,$destination,$file_name);
+
+            if($upload)
+            {
+                $datas['thumbnail'] = $destination.$file_name;
+            }else{
+                Session::flash("flash_notify",[
+                    'level' => 'error',
+                    'message' => __('admin.contents.messages.fail_upload')
+                ]);
+                return redirect()->back()->withInput();
+            }
+        }
 
          $update = $this->contents->update($datas,$id);
 
@@ -199,7 +250,7 @@ class ContentsController extends Controller
         {
             Session::flash("flash_notify",[
                 'level' => 'success',
-                'message' => __('admin.contents.messages.success_add')
+                'message' => __('admin.contents.messages.success_edit')
             ]);
 
             return redirect()->route('contents_page')->withInput($request->all());
@@ -217,17 +268,20 @@ class ContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $this->contents->update(['status' => 1],$request->content_id);
+        $this->contents->delete($request->content_id);
+        return redirect()->back();
     }
 
     /**
      * Buildform delete contents
      */
-    public function builform()
+    public function builform(Request $request)
     {
-
+        $content_id = $request->get('content_id');
+        return response()->json(['body' => view('admin.contents.formdelete', compact('content_id'))->render()]);
     }
 
     /**
@@ -237,6 +291,25 @@ class ContentsController extends Controller
     {
         $this->contents->update(['status' => $request->status],$request->id);
 
+        return redirect()->back();
+    }
+
+    /**
+     * restore
+     */
+    public function restore(Request $request)
+    {
+        $this->contents->restore($request->id);
+
+        return redirect()->back();
+    }
+
+    /**
+     * delete permanly
+     */
+    public function delete_permanly(Request $request)
+    {
+        $this->contents->deletePermanently($request->id);
         return redirect()->back();
     }
 }

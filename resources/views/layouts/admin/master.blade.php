@@ -82,16 +82,15 @@
         <!-- Ckeditor Core JavaScript -->
         <script src="{{asset('/templateEditor/ckeditor/ckeditor.js')}}"></script>
 
-        <!-- lfm Core -->
-        <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
-
-        <script>
+        <script type="text/javascript">
             var options = {
-                filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-                filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-                filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
-            };
+                filebrowserBrowseUrl : "{{asset('templateEditor/ckfinder/ckfinder.html')}}",
+                filebrowserImageBrowseUrl : "{{asset('templateEditor/ckfinder/ckfinder.html?Type=Images')}}",
+                filebrowserUploadUrl : "{{asset('templateEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files')}}",
+                filebrowserImageUploadUrl : "{{asset('templateEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images')}}",
+                filebrowserFlashBrowseUrl : "{{asset('templateEditor/ckfinder/ckfinder.html?type=Flash')}}",
+                filebrowserFlashUploadUrl : "{{asset('templateEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash')}}"
+            }
         </script>
         <!-- extras JavaScript -->
         @yield('scripts')
