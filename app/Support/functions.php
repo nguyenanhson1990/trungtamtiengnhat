@@ -24,9 +24,9 @@ class functions
 
     public static function upload_file($file,$destination,$file_name)
     {
-        $path = $file->storeAs($destination, $file_name);
+        $file = $file->move($destination,$file_name);
 
-        return $path;
+        return $file;
     }
 
 }

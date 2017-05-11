@@ -64,13 +64,11 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="btn-thumbnail">{{__('admin.contents.contents_thumbnail')}}</label>
-                                <div class="preview-area">
-                                    <img id="holder" width="100%">
-                                </div>
+                                <div class="preview-area"></div>
                                 <label class="ask-rick has-error-upload">{{__('admin.contents.messages.error_upload')}}</label><br>
                                 <label>
-                                    <a id="lfm" data-input="thumbnail" data-preview="holder">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
-                                    <input id="thumbnail" class="form-control" type="hidden" name="thumbnail">
+                                    <a href="#" id="file-upload">{{__('admin.file_upload')}}</a>&nbsp&nbsp<a href="#" id="remove-upload">{{__('admin.delete')}}</a>
+                                    <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
                                 </label>
                                 <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
                             </div>
@@ -129,8 +127,8 @@
 @endsection
 @section('scripts')
     <script>
-        CKEDITOR.replace( 'short_content',options);
-        CKEDITOR.replace( 'main_content',options );
+        CKEDITOR.replace( 'short_content');
+        CKEDITOR.replace( 'main_content' );
     </script>
     <!-- contents js -->
     <script src="{{asset('js/admin/contents/app.js')}}"></script>

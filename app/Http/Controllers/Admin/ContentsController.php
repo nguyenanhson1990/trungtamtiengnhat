@@ -91,9 +91,27 @@ class ContentsController extends Controller
             'status' => $request->status,
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
-            'og_desc' => $request->og_desc,
-            'thumbnail' => $request->thumbnail
+            'og_desc' => $request->og_desc
         ];
+
+        if($request->hasFile('thumbnail'))
+        {
+            $thumbnail = $request->file('thumbnail');
+            $destination = 'uploads/contents/thumbnail/';
+            $file_name = $request->slug.'_'.random_int(0,12).'_'.$thumbnail->getClientOriginalName();
+            $upload = functions::upload_file($thumbnail,$destination,$file_name);
+
+            if($upload)
+            {
+                $datas['thumbnail'] = $destination.$file_name;
+            }else{
+                Session::flash("flash_notify",[
+                    'level' => 'error',
+                    'message' => __('admin.contents.messages.fail_upload')
+                ]);
+                return redirect()->back()->withInput();
+            }
+        }
 
         $user_id = $this->user->findByCredentials(session()->get('loged_credentials'))->id;
 
@@ -180,9 +198,27 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
-            'user_id'  => $request->user_id,
-            'thumbnail' => $request->thumbnail
+            'user_id'  => $request->user_id
         ];
+
+        if($request->hasFile('thumbnail'))
+        {
+            $thumbnail = $request->file('thumbnail');
+            $destination = 'uploads/contents/thumbnail/';
+            $file_name = $request->slug.'_'.random_int(0,12).'_'.$thumbnail->getClientOriginalName();
+            $upload = functions::upload_file($thumbnail,$destination,$file_name);
+
+            if($upload)
+            {
+                $datas['thumbnail'] = $destination.$file_name;
+            }else{
+                Session::flash("flash_notify",[
+                    'level' => 'error',
+                    'message' => __('admin.contents.messages.fail_upload')
+                ]);
+                return redirect()->back()->withInput();
+            }
+        }
 
          $update = $this->contents->update($datas,$id);
 

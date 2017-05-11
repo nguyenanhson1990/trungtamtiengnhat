@@ -84,7 +84,7 @@
                                     <td>{!! str_limit($item->short_content, 200, '...') !!}</td>
                                     <td class="text-center">
                                         @if(!empty($item->thumbnail))
-                                            <img src="{{ asset($item->thumbnail) }}" title="{{$item->title}}">
+                                            <img src="{{ Image::url(asset($item->thumbnail),100,88,array('crop','grayscale')) }}" title="{{$item->title}}">
                                         @else
                                             <img src="{{ asset('public/no-image.jpg') }}" title="{{$item->title}}">
                                         @endif

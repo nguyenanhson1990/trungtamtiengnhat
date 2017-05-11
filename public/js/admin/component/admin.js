@@ -13,10 +13,7 @@ $(document).ready(function () {
     $('#remove-upload').on('click', function(e){
         e.preventDefault();
         $('.preview-area').html('');
-        $('#thumbnail').val('');
     });
-
-    $('#lfm').filemanager('image');
 });
 
 function previewImage(input){
