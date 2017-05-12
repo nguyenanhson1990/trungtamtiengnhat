@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-7">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <select  id="category_id" onchange="this.form.submit();" name="category_id" aria-controls="dataTables-example" class="form-control input-sm">
                                         <option value="">--{{__('admin.contents.contents_category')}}--</option>
@@ -69,15 +69,29 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="col-sm-2">
-                            <form name="frmDeleteAll" class="frmDeleteAll" @if(Request::get('trashed') == 1) method="get" @else method="post" @endif  action="@if(Request::get('trashed') == 1) {{Route('delete_permanly')}} @else {{Route('contents_destroy')}} @endif">
-                                {{ csrf_field() }}
+                        <form class="form-inline" method="post" action="{{Route('contents_action')}}">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <select name="actions" class="form-control input-sm">
+                                    <option value="">--{{__('admin.action')}}--</option>
+                                    @foreach($actions as $key => $val)
+                                        @if(Request::get('trashed') == 1)
+                                            @if($key == 2 || $key == 3)
+                                                <option value="{{$key}}">{{$val}}</option>
+                                            @endif
+                                        @else
+                                            @if($key == 1 || $key == 4)
+                                                <option value="{{$key}}">{{$val}}</option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </select>
                                 <input type="hidden" name="ids">
-                                <div class="pull-right">
-                                    <button class="btn btn-danger btn_delete_all">{{__('admin.delete_all')}}</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-danger btn_action" value="{{__('admin.action')}}">
+                            </div>
+                        </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover">
@@ -111,23 +125,25 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        @if($item->status == 2)
-                                            <a href="{{Route('contents_change_status', ['status' => 1,'id' => $item->id])}}"><i class="fa fa-pause-circle fa-lg" aria-hidden="true"></i></a>
-                                            @endif
-                                        @if($item->status == 1)
-                                            <a href="{{Route('contents_change_status', ['status' => 2,'id' => $item->id])}}"><i class="fa fa-play-circle-o fa-lg" aria-hidden="true"></i></a>
-                                            @endif
+                                        @if(Request::get('trashed'))
+                                            <a href="#"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                        @else
+                                            <a href="{{Route('contents_change_status', ['status' => $item->status == 1 ? 2 : 1,'id' => $item->id])}}">
+                                                @if($item->status == 1)
+                                                    <i class="fa fa-play-circle-o fa-lg" aria-hidden="true"></i>
+                                                @endif
+                                                @if($item->status == 2)
+                                                    <i class="fa fa-pause-circle fa-lg" aria-hidden="true"></i>
+                                                @endif
+                                            </a>
+                                        @endif
                                     </td>
                                     <td class="text-center">
-                                        @if(Request::get('trashed') == 1)
-                                            <a href="{{Route('contents_restore',['id'=>$item->id])}}"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
-                                            <a onclick="javascript:return confirm('{{ __('admin.contents.messages.delete_permanly') }}');" href="{{Route('delete_permanly',['id'=>$item->id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            @else
-                                                <a href="{{Route('contents_edit',array_merge(Request::all(),['id'=>$item->id]))}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> |
-                                                <a href="#" class="openModel" modalTitle="{{ __('admin.contents.contents_delete') }}" data-toggle="modal"
-                                                         data-target="#modal-component"
-                                                 datacontent_id="{{$item->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            @endif
+                                        @if(Request::get('trashed'))
+                                            <a href="#"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                        @else
+                                            <a href="{{Route('contents_edit',array_merge(Request::all(),['id'=>$item->id]))}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <input type="checkbox" class="check_all_item" value="{{$item->id}}" />

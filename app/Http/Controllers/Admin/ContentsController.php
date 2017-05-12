@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ContentsController extends Controller
 {
@@ -40,6 +41,7 @@ class ContentsController extends Controller
         $status = Config::get('contains.status');
         $status_id = $request->get('status_id');
         $trashed = Config::get('contains.trashed');
+        $actions = Config::get('contains.actions');
 
         if(empty($limit))
         {
@@ -71,7 +73,7 @@ class ContentsController extends Controller
                 ->paginate($limit);
         }
 
-        return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id','trashed'));
+        return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id','trashed','actions'));
     }
 
     /**
@@ -221,6 +223,12 @@ class ContentsController extends Controller
             $thumbnail = $request->file('thumbnail');
             $destination = 'uploads/contents/thumbnail/';
             $file_name = $request->slug.'_'.random_int(0,12).'_'.$thumbnail->getClientOriginalName();
+            $exits_thumbnail = $this->contents->findById($id)->value('thumbnail');
+            if(Storage::exists($exits_thumbnail))
+            {
+                Storage::delete($exits_thumbnail);
+            }
+
             $upload = functions::upload_file($thumbnail,$destination,$file_name);
 
             if($upload)
@@ -259,46 +267,70 @@ class ContentsController extends Controller
                 'level' => 'danger',
                 'message' => __('admin.contents.messages.error_add')
             ]);
+            return redirect()->route('contents_page')->withInput($request->all());
         }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Handler action delete, change status, move to trash, restore
      */
-    public function destroy(Request $request)
+    public function action(Request $request)
     {
-        if($request->ids)
+        if(!empty(json_decode($request->ids)))
         {
-            foreach(json_decode($request->ids) as $item)
-            {
-                $this->contents->update(['status' => 1],$item);
-                $this->contents->delete($item);
+            if($request->actions == 1){// move to trash
+                foreach(json_decode($request->ids) as $item)
+                {
+                    $this->contents->update(['status' => 1],$item);
+                    $this->contents->delete($item);
+                }
+                Session::flash('flash_notify',[
+                    'level' => 'success',
+                    'message' => __('admin.contents.messages.success_move_trash')
+                ]);
             }
-        }
 
-        if($request->content_id)
-        {
-            $this->contents->update(['status' => 1],$request->content_id);
-            $this->contents->delete($request->content_id);
+            if($request->actions == 2){ //delete
+                foreach(json_decode($request->ids) as $item) {
+                    $thumbnail = $this->contents->findById($item)->withTrashed()->value('thumbnail');
+                    if(Storage::exists($thumbnail))
+                    {
+                        Storage::delete($thumbnail);
+                    }
+                    $this->contents->deletePermanently($item);
+                }
+                Session::flash('flash_notify',[
+                    'level' => 'danger',
+                    'message' => __('admin.contents.messages.success_delete')
+                ]);
+            }
+
+            if($request->actions == 3){ //restore
+                foreach(json_decode($request->ids) as $item) {
+                    $this->contents->restore($item);
+                }
+                Session::flash('flash_notify',[
+                    'level' => 'success',
+                    'message' => __('admin.contents.messages.success_restore')
+                ]);
+            }
+
+            if($request->actions == 4){ //change status
+
+                foreach(json_decode($request->ids) as $item) {
+
+                    $status = $this->contents->findById($item)->value('status');
+                    $this->contents->update(['status' => $status == 1 ? 2 : 1], $item);
+                }
+                Session::flash('flash_notify',[
+                    'level' => 'success',
+                    'message' => __('admin.contents.messages.success_change_status')
+                ]);
+            }
+
         }
-        Session::flash('flash_notify',[
-            'level' => 'danger',
-            'message' => __('admin.contents.messages.success_delete')
-        ]);
 
         return redirect()->back();
-    }
-
-    /**
-     * Buildform delete contents
-     */
-    public function builform(Request $request)
-    {
-        $content_id = $request->get('content_id');
-        return response()->json(['body' => view('admin.contents.formdelete', compact('content_id'))->render()]);
     }
 
     /**
@@ -311,45 +343,6 @@ class ContentsController extends Controller
         Session::flash('flash_notify',[
            'level' => 'success',
             'message' => __('admin.contents.messages.success_change_status')
-        ]);
-
-        return redirect()->back();
-    }
-
-    /**
-     * restore
-     */
-    public function restore(Request $request)
-    {
-        $this->contents->restore($request->id);
-
-        Session::flash('flash_notify',[
-            'level' => 'success',
-            'message' => __('admin.contents.messages.success_restore')
-        ]);
-
-        return redirect()->back();
-    }
-
-    /**
-     * delete permanly
-     */
-    public function delete_permanly(Request $request)
-    {
-        if($request->ids)
-        {
-            foreach(json_decode($request->ids) as $item) {
-                $this->contents->deletePermanently($item);
-            }
-        }
-        if($request->id)
-        {
-            $this->contents->deletePermanently($request->id);
-        }
-
-        Session::flash('flash_notify',[
-            'level' => 'danger',
-            'message' => __('admin.contents.messages.success_delete')
         ]);
 
         return redirect()->back();

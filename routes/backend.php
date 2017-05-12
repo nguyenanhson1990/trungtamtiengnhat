@@ -50,9 +50,7 @@ Route::group(['namespace' => 'Admin','middleware' => ['web']], function () {
       Route::post('/update/{id}','ContentsController@update')->name('contents_update');
 
       Route::get('/delete/getform','ContentsController@builform')->name('contents_delete_form');
-      Route::post('/delete','ContentsController@destroy')->name('contents_destroy');
-      Route::get('/delete_permanly','ContentsController@delete_permanly')->name('delete_permanly');
 
-      Route::get('/restore/{id}','ContentsController@restore')->name('contents_restore');
+      Route::post('/action','ContentsController@action')->name('contents_action');
    });
 });

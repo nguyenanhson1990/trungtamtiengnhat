@@ -19,5 +19,11 @@ return [
     'trashed' => [
         '1' => 'Trashed',
         '2' => 'All'
+    ],
+    'actions' => [
+        '1' => 'Thùng rác',
+        '2' => 'Xóa',
+        '3' => 'Phục hồi',
+        '4' => 'Trạng thái'
     ]
 ];
