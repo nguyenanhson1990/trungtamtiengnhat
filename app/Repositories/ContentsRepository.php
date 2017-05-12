@@ -19,9 +19,9 @@ class ContentsRepository implements ContentsRepositoryInterface
         return Contents::class;
     }
 
-    public function getAll()
+    public function getAll($limit)
     {
-        return DB::table('contents');
+        return Contents::all($limit);
     }
 
     public function get($data)

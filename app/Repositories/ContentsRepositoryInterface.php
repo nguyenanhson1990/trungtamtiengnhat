@@ -13,7 +13,7 @@ interface ContentsRepositoryInterface
 {
     public function __construct();
 
-    public function getAll();
+    public function getAll($limit);
 
     public function get($data);
 

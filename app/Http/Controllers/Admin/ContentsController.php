@@ -54,9 +54,8 @@ class ContentsController extends Controller
             $limit = Config::get('contains.limit');
         }
 
-        if($request->get('trashed') == 1)
-        {
-            $contents = $this->contents->getTrashed()
+        if($request->get('trashed') == 1) {
+            /*$contents = $this->contents->getAll()
                 ->when($category_id, function($query) use ($category_id){
                     $query->whereHas('categories', function($q) use ($category_id){
                         $q->where('id', '=', $category_id);
@@ -64,19 +63,8 @@ class ContentsController extends Controller
                 })
                 ->when($status_id, function($query) use ($status_id){
                     $query->where('status', $status_id);
-                })->orderBy('updated_at','DESC')->paginate($limit);
-        }else{
-            $contents = $this->contents->getAll()
-                ->when($category_id, function($query) use ($category_id){
-                    $query->whereHas('categories', function($q) use ($category_id){
-                        $q->where('id', '=', $category_id);
-                    });
-                })
-                ->when($status_id, function($query) use ($status_id){
-                    $query->where('status', $status_id);
-                })->latest()->paginate($limit);
+                })->latest()->paginate($limit);*/
         }
-
         return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id','trashed','actions','content_type'));
     }
 
