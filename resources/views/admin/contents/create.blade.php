@@ -41,7 +41,6 @@
                                 <div class="form-group @if($errors->has('title')) has-error @endif">
                                     <label class="control-label" for="title">{{ __('admin.contents.contents_title') }} *</label>
                                     <input id="title" type="text" name="title" value="{{old('title')}}" class="form-control">
-                                    <input type="hidden" name="content_type" value="1">
                                 </div>
                                 <div class="form-group @if($errors->has('slug')) has-error @endif">
                                     <label class="control-label" for="slug">{{ __('admin.contents.contents_slug') }}</label>
@@ -69,6 +68,14 @@
                                     <input type="file" onchange="previewImage($(this));" name="thumbnail" id="btn-thumbnail" class="hide">
                                 </label>
                                 <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="content_type">{{__('admin.contents.content_type')}}</label>
+                                <select class="form-control" name="content_type" id="content_type">
+                                    @foreach($content_type as $key => $item)
+                                        <option value="{{$key}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>{{__('admin.contents.contents_category')}}</label><br>

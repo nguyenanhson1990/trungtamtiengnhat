@@ -75,6 +75,14 @@
                                 <label class="ask-rick"><em>{{__('admin.contents.messages.thumbnail_notify')}}</em></label>
                             </div>
                             <div class="form-group">
+                                <label for="content_type">{{__('admin.contents.content_type')}}</label>
+                                <select class="form-control" name="content_type" id="content_type">
+                                    @foreach($content_type as $key => $item)
+                                        <option @if($contents->content_type == $key) selected @endif value="{{$key}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>{{__('admin.contents.contents_category')}}</label><br>
                                 <div class="panel panel-default scroll">
                                     <div class ="panel-body inner">

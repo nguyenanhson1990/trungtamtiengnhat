@@ -42,6 +42,12 @@ class ContentsController extends Controller
         $status_id = $request->get('status_id');
         $trashed = Config::get('contains.trashed');
         $actions = Config::get('contains.actions');
+        $content_type = $request->get('content_type');
+
+        if(empty($content_type))
+        {
+            $content_type = Config::get('contains.content_type');
+        }
 
         if(empty($limit))
         {
@@ -50,7 +56,7 @@ class ContentsController extends Controller
 
         if($request->get('trashed') == 1)
         {
-            $contents = $this->contents->getAll(1)->onlyTrashed()->latest('updated_at')
+            $contents = $this->contents->getTrashed()
                 ->when($category_id, function($query) use ($category_id){
                     $query->whereHas('categories', function($q) use ($category_id){
                         $q->where('id', '=', $category_id);
@@ -58,10 +64,9 @@ class ContentsController extends Controller
                 })
                 ->when($status_id, function($query) use ($status_id){
                     $query->where('status', $status_id);
-                })
-                ->paginate($limit);
+                })->orderBy('updated_at','DESC')->paginate($limit);
         }else{
-            $contents = $this->contents->getAll(1)->latest('updated_at')
+            $contents = $this->contents->getAll()
                 ->when($category_id, function($query) use ($category_id){
                     $query->whereHas('categories', function($q) use ($category_id){
                         $q->where('id', '=', $category_id);
@@ -69,11 +74,10 @@ class ContentsController extends Controller
                 })
                 ->when($status_id, function($query) use ($status_id){
                     $query->where('status', $status_id);
-                })
-                ->paginate($limit);
+                })->latest()->paginate($limit);
         }
 
-        return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id','trashed','actions'));
+        return view('admin.contents.page_index',compact('record_per_page','limit','contents','categories','status','status_id','trashed','actions','content_type'));
     }
 
     /**
@@ -87,8 +91,9 @@ class ContentsController extends Controller
 
         $categories  = $this->categories->get(['id','parent_id','name'])->toArray();
         $status = Config::get('contains.status');
+        $content_type = Config::get('contains.content_type');
 
-        return view('admin.contents.create',compact('type','categories','status'));
+        return view('admin.contents.create',compact('type','categories','status','content_type'));
     }
 
     /**
@@ -108,7 +113,8 @@ class ContentsController extends Controller
             'status' => $request->status,
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
-            'og_desc' => $request->og_desc
+            'og_desc' => $request->og_desc,
+            'content_type'  => $request->content_type
         ];
 
         if($request->hasFile('thumbnail'))
@@ -153,7 +159,7 @@ class ContentsController extends Controller
                 'message' => __('admin.contents.messages.success_add')
             ]);
 
-            return redirect()->route('contents_page');
+            return redirect()->route('contents_page')->withInput($request->all());
         }else{
             Session::flash("flash_notify",[
                 'level' => 'error',
@@ -187,13 +193,14 @@ class ContentsController extends Controller
         $categories  = $this->categories->get(['id','parent_id','name'])->toArray();
         $status = Config::get('contains.status');
         $contents_categories_id = [];
+        $content_type = Config::get('contains.content_type');
 
         foreach($contents->categories->toArray() as $key => $value)
         {
              array_push($contents_categories_id,$value['id']);
         }
 
-        return view('admin.contents.edit',compact('contents','categories','status','contents_categories_id','id'));
+        return view('admin.contents.edit',compact('contents','categories','status','contents_categories_id','id','content_type'));
     }
 
     /**
@@ -215,7 +222,8 @@ class ContentsController extends Controller
             'end_date' => functions::to_date_mysql($request->end_date),
             'og_keyword' => $request->og_keyword,
             'og_desc' => $request->og_desc,
-            'user_id'  => $request->user_id
+            'user_id'  => $request->user_id,
+            'content_type'  => $request->content_type
         ];
 
         if($request->hasFile('thumbnail'))

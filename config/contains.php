@@ -25,5 +25,9 @@ return [
         '2' => 'Xóa',
         '3' => 'Phục hồi',
         '4' => 'Trạng thái'
+    ],
+    'content_type' => [
+        '1' => 'Page',
+        '2' => 'Post'
     ]
 ];

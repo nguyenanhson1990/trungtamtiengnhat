@@ -38,8 +38,7 @@ return [
             'user_management_list' => 'Danh sách',
             'content_management' => 'Quản lý nội dung',
             'content_management_categories' => 'Categories',
-            'content_management_post' => 'Bài viết ( post )',
-            'content_management_page' => 'Bài viết ( page )',
+            'content_management_page' => 'Bài viết',
         ],
     'users' => [
             'user_list' => 'Danh sách User',
@@ -85,6 +84,7 @@ return [
         'publish' => 'Xuất bản',
         'edit' => 'Cập nhật',
         'status' => 'Trạng thái',
+        'content_type' => 'Kiểu bài viết',
         'messages' => [
             'title_required' => 'Hãy nhập vào tiêu đề bài viết',
             'success_add' => 'Thêm mới bài viết thành công',

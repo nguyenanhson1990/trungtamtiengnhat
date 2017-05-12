@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 use App\Models\Contents;
+use DB;
 
 class ContentsRepository implements ContentsRepositoryInterface
 {
@@ -18,9 +19,9 @@ class ContentsRepository implements ContentsRepositoryInterface
         return Contents::class;
     }
 
-    public function getAll($type)
+    public function getAll()
     {
-        return Contents::where('content_type',$type);
+        return DB::table('contents');
     }
 
     public function get($data)

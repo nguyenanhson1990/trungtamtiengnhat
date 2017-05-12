@@ -22,7 +22,7 @@
                             {{__('admin.contents.contents_page_list')}}
                         </div>
                         <div class="col-sm-2 text-right">
-                            <a href="{{Route('contents_create',['type' => 1])}}">
+                            <a href="{{Route('contents_create')}}">
                                 <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
